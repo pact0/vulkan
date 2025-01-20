@@ -1,12 +1,12 @@
 
 # Add source to this project's executable.
-add_executable (engine
+add_executable (engine 
   main.cpp
   vk_types.h
   vk_initializers.cpp
   vk_initializers.h
   vk_images.h
-  vk_images.cpp
+  vk_images.cpp 
   vk_descriptors.h
   vk_descriptors.cpp
   vk_pipelines.h
@@ -19,10 +19,9 @@ add_executable (engine
   camera.h
 )
 
-set_property(TARGET engine PROPERTY CXX_STANDARD 20)
+set_property(TARGET engine PROPERTY CXX_STANDARD 23)
 target_compile_definitions(engine PUBLIC GLM_FORCE_DEPTH_ZERO_TO_ONE)
 target_include_directories(engine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
-
 
 IF (WIN32)
 target_link_libraries(engine PUBLIC vma glm Vulkan::Vulkan stb_image SDL2::SDL2 vkbootstrap imgui fastgltf::fastgltf)
@@ -31,7 +30,6 @@ target_link_libraries(engine PUBLIC
 vma
 glm
 Vulkan::Vulkan
-fmt::fmt
 stb_image
 SDL2
 vkbootstrap
@@ -40,12 +38,9 @@ fastgltf::fastgltf
   )
 ENDIF()
 
-target_precompile_headers(engine PUBLIC <optional> <vector> <memory> <string> <vector> <unordered_map> <glm/mat4x4.hpp>  <glm/vec4.hpp> <vulkan/vulkan.h>)
+target_precompile_headers(engine PUBLIC <optional> <vector> <memory> <string> <print> <unordered_map> <glm/mat4x4.hpp>  <glm/vec4.hpp> <vulkan/vulkan.h>)
 
-
-IF (WIN32)
 add_custom_command(TARGET engine POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:engine> $<TARGET_FILE_DIR:engine>
   COMMAND_EXPAND_LISTS
   )
-ENDIF()
