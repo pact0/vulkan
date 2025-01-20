@@ -25,7 +25,7 @@ target_include_directories(engine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 
 
 IF (WIN32)
-target_link_libraries(engine PUBLIC vma glm Vulkan::Vulkan fmt::fmt stb_image SDL2::SDL2 vkbootstrap imgui fastgltf::fastgltf)
+target_link_libraries(engine PUBLIC vma glm Vulkan::Vulkan stb_image SDL2::SDL2 vkbootstrap imgui fastgltf::fastgltf)
 ELSE()
 target_link_libraries(engine PUBLIC
 vma

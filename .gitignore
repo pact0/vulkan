@@ -24,6 +24,7 @@ web-ext.config.ts
 *.njsproj
 *.sln
 *.sw?
+*.vs
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 # dependencies

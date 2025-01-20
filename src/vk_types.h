@@ -10,11 +10,10 @@
 #include <span>
 #include <string>
 #include <vector>
+#include <print>
 
 #include <vk_mem_alloc.h>
 #include <vulkan/vulkan.h>
-
-#include <fmt/core.h>
 
 #include <glm/mat4x4.hpp>
 #include <glm/vec4.hpp>
@@ -23,7 +22,7 @@
   do {                                                                         \
     VkResult err = x;                                                          \
     if (err) {                                                                 \
-      fmt::println("Detected Vulkan error: {}", string_VkResult(err));         \
+      std::println("Detected Vulkan error: {}", string_VkResult(err));         \
       abort();                                                                 \
     }                                                                          \
   } while (0)

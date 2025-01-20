@@ -7,7 +7,6 @@ add_library(vma INTERFACE)
 add_library(stb_image INTERFACE)
 
 add_subdirectory(fastgltf)
-add_subdirectory(fmt EXCLUDE_FROM_ALL)
 # add_subdirectory(SDL EXCLUDE_FROM_ALL)
 
 IF (WIN32)
@@ -24,7 +23,7 @@ target_sources(vkbootstrap PRIVATE
 
 target_include_directories(vkbootstrap PUBLIC vkbootstrap)
 target_link_libraries(vkbootstrap PUBLIC Vulkan::Vulkan $<$<BOOL:UNIX>:${CMAKE_DL_LIBS}>)
-set_property(TARGET vkbootstrap PROPERTY CXX_STANDARD 20)
+set_property(TARGET vkbootstrap PROPERTY CXX_STANDARD 23)
 
 #both vma and glm and header only libs so we only need the include path
 target_include_directories(vma INTERFACE vma)
