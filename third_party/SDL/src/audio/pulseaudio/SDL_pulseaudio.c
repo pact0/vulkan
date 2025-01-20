@@ -35,16 +35,16 @@
 #ifdef HAVE_SIGNAL_H
 #include <signal.h>
 #endif
-#include <pulse/pulseaudio.h>
-#include <sys/types.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <pulse/pulseaudio.h>
 
-#include "../../thread/SDL_systhread.h"
-#include "../SDL_audio_c.h"
-#include "SDL_audio.h"
-#include "SDL_loadso.h"
-#include "SDL_pulseaudio.h"
 #include "SDL_timer.h"
+#include "SDL_audio.h"
+#include "../SDL_audio_c.h"
+#include "SDL_pulseaudio.h"
+#include "SDL_loadso.h"
+#include "../../thread/SDL_systhread.h"
 
 /* should we include monitors in the device list? Set at SDL_Init time */
 static SDL_bool include_monitors = SDL_FALSE;

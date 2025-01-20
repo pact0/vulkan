@@ -30,18 +30,18 @@
 #include <limits.h>
 /* Visual Studio 2008 doesn't have stdint.h */
 #if defined(_MSC_VER) && _MSC_VER <= 1500
-#define UINT8_MAX  _UI8_MAX
-#define UINT16_MAX _UI16_MAX
-#define UINT32_MAX _UI32_MAX
-#define INT64_MIN  _I64_MIN
-#define INT64_MAX  _I64_MAX
-#define UINT64_MAX _UI64_MAX
+#define UINT8_MAX   _UI8_MAX
+#define UINT16_MAX  _UI16_MAX
+#define UINT32_MAX  _UI32_MAX
+#define INT64_MIN    _I64_MIN
+#define INT64_MAX    _I64_MAX
+#define UINT64_MAX  _UI64_MAX
 #else
 #include <stdint.h>
 #endif
-#include <float.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <float.h>
 
 #include "SDL_test.h"
 

@@ -2,13 +2,14 @@
  *  rectangles.c
  *  written by Holmes Futrell
  *  use however you want
- */
+*/
 
 #include "SDL.h"
-#include "common.h"
 #include <time.h>
+#include "common.h"
 
-void render(SDL_Renderer *renderer)
+void
+render(SDL_Renderer *renderer)
 {
     Uint8 r, g, b;
     int renderW;
@@ -36,7 +37,8 @@ void render(SDL_Renderer *renderer)
     SDL_RenderPresent(renderer);
 }
 
-int main(int argc, char *argv[])
+int
+main(int argc, char *argv[])
 {
 
     SDL_Window *window;

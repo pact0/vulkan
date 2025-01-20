@@ -28,12 +28,12 @@
 
 #if SDL_AUDIO_DRIVER_WASAPI && !defined(__WINRT__)
 
-#include "../../core/windows/SDL_immdevice.h"
 #include "../../core/windows/SDL_windows.h"
-#include "../SDL_audio_c.h"
-#include "../SDL_sysaudio.h"
+#include "../../core/windows/SDL_immdevice.h"
 #include "SDL_audio.h"
 #include "SDL_timer.h"
+#include "../SDL_audio_c.h"
+#include "../SDL_sysaudio.h"
 
 #include <audioclient.h>
 

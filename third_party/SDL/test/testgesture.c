@@ -297,3 +297,4 @@ int main(int argc, char *argv[])
     SDLTest_CommonQuit(state);
     return 0;
 }
+

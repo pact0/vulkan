@@ -22,25 +22,25 @@
 
 #if SDL_VIDEO_DRIVER_X11
 
-#include <limits.h> /* For INT_MAX */
-#include <signal.h>
-#include <sys/time.h>
 #include <sys/types.h>
+#include <sys/time.h>
+#include <signal.h>
 #include <unistd.h>
+#include <limits.h> /* For INT_MAX */
 
-#include "../../SDL_utils_c.h"
+#include "SDL_x11video.h"
+#include "SDL_x11touch.h"
+#include "SDL_x11xinput2.h"
+#include "SDL_x11xfixes.h"
 #include "../../core/unix/SDL_poll.h"
 #include "../../events/SDL_events_c.h"
 #include "../../events/SDL_mouse_c.h"
 #include "../../events/SDL_touch_c.h"
-#include "SDL_x11touch.h"
-#include "SDL_x11video.h"
-#include "SDL_x11xfixes.h"
-#include "SDL_x11xinput2.h"
+#include "../../SDL_utils_c.h"
 
 #include "SDL_hints.h"
-#include "SDL_syswm.h"
 #include "SDL_timer.h"
+#include "SDL_syswm.h"
 
 #include <stdio.h>
 
@@ -742,14 +742,14 @@ static Bool isReparentNotify(Display *display, XEvent *ev, XPointer arg)
 
 static SDL_bool IsHighLatin1(const char *string, int length)
 {
-    while (length-- > 0) {
-        Uint8 ch = (Uint8)*string;
-        if (ch >= 0x80) {
-            return SDL_TRUE;
-        }
-        ++string;
-    }
-    return SDL_FALSE;
+	while (length-- > 0) {
+		Uint8 ch = (Uint8)*string;
+		if (ch >= 0x80) {
+			return SDL_TRUE;
+		}
+		++string;
+	}
+	return SDL_FALSE;
 }
 
 static int XLookupStringAsUTF8(XKeyEvent *event_struct, char *buffer_return, int bytes_buffer, KeySym *keysym_return, XComposeStatus *status_in_out)

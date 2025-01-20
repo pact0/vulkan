@@ -1,8 +1,8 @@
 #ifndef ICONV_H_ /* minimal iconv.h header based on public knowledge */
 #define ICONV_H_
 
-#include <errno.h>
 #include <stddef.h> /* size_t */
+#include <errno.h>
 
 typedef void *iconv_t;
 

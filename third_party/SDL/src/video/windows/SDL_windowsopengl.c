@@ -22,10 +22,10 @@
 
 #if SDL_VIDEO_DRIVER_WINDOWS
 
-#include "SDL_hints.h"
 #include "SDL_loadso.h"
-#include "SDL_windowsopengles.h"
 #include "SDL_windowsvideo.h"
+#include "SDL_windowsopengles.h"
+#include "SDL_hints.h"
 
 /* WGL implementation of SDL OpenGL support */
 

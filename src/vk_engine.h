@@ -1,4 +1,4 @@
-// vulkan_guide.h : Include file for standard system include files,
+﻿// vulkan_guide.h : Include file for standard system include files,
 // or project specific include files.
 
 #pragma once
@@ -7,24 +7,25 @@
 
 class VulkanEngine {
 public:
-  bool _isInitialized{false};
-  int _frameNumber{0};
-  bool stop_rendering{false};
-  VkExtent2D _windowExtent{1700, 900};
 
-  struct SDL_Window *_window{nullptr};
+	bool _isInitialized{ false };
+	int _frameNumber {0};
+	bool stop_rendering{ false };
+	VkExtent2D _windowExtent{ 1700 , 900 };
 
-  static VulkanEngine &Get();
+	struct SDL_Window* _window{ nullptr };
 
-  // initializes everything in the engine
-  void init();
+	static VulkanEngine& Get();
 
-  // shuts down the engine
-  void cleanup();
+	//initializes everything in the engine
+	void init();
 
-  // draw loop
-  void draw();
+	//shuts down the engine
+	void cleanup();
 
-  // run main loop
-  void run();
+	//draw loop
+	void draw();
+
+	//run main loop
+	void run();
 };

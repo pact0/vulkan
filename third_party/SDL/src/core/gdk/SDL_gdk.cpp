@@ -21,17 +21,17 @@
 #include "../../SDL_internal.h"
 
 extern "C" {
-#include "../../events/SDL_events_c.h"
-#include "../windows/SDL_windows.h"
-#include "SDL_events.h"
-#include "SDL_main.h"
-#include "SDL_messagebox.h"
 #include "SDL_system.h"
+#include "../windows/SDL_windows.h"
+#include "SDL_messagebox.h"
+#include "SDL_main.h"
+#include "SDL_events.h"
+#include "../../events/SDL_events_c.h"
 }
 #include <XGameRuntime.h>
-#include <appnotify.h>
-#include <shellapi.h> /* CommandLineToArgvW() */
 #include <xsapi-c/services_c.h>
+#include <shellapi.h> /* CommandLineToArgvW() */
+#include <appnotify.h>
 
 static XTaskQueueHandle GDK_GlobalTaskQueue;
 

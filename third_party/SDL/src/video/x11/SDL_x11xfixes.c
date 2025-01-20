@@ -23,10 +23,10 @@
 
 #if SDL_VIDEO_DRIVER_X11 && SDL_VIDEO_DRIVER_X11_XFIXES
 
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_touch_c.h"
 #include "SDL_x11video.h"
 #include "SDL_x11xfixes.h"
+#include "../../events/SDL_mouse_c.h"
+#include "../../events/SDL_touch_c.h"
 
 static int xfixes_initialized = 0;
 

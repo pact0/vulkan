@@ -22,19 +22,19 @@
 
 #if SDL_VIDEO_RENDER_PSP
 
-#include "../SDL_sysrender.h"
 #include "SDL_hints.h"
+#include "../SDL_sysrender.h"
 
-#include <math.h>
+#include <pspkernel.h>
 #include <pspdisplay.h>
-#include <pspge.h>
 #include <pspgu.h>
 #include <pspgum.h>
-#include <pspkernel.h>
-#include <stdarg.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
+#include <math.h>
+#include <pspge.h>
+#include <stdarg.h>
+#include <stdlib.h>
 #include <vram.h>
 
 /* PSP renderer implementation, based on the PGE  */
@@ -126,8 +126,8 @@ typedef struct
 
 #define PI 3.14159265358979f
 
-#define radToDeg(x) ((x) * 180.f / PI)
-#define degToRad(x) ((x) * PI / 180.f)
+#define radToDeg(x) ((x)*180.f / PI)
+#define degToRad(x) ((x)*PI / 180.f)
 
 static float MathAbs(float x)
 {

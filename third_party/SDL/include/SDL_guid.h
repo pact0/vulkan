@@ -28,8 +28,8 @@
 #ifndef SDL_guid_h_
 #define SDL_guid_h_
 
-#include "SDL_error.h"
 #include "SDL_stdinc.h"
+#include "SDL_error.h"
 
 #include "begin_code.h"
 /* Set up for C function definitions, even when using C++ */
@@ -52,8 +52,7 @@ extern "C" {
  * GUIDs may be platform-dependent (i.e., the same device may report
  *   different GUIDs on different operating systems).
  */
-typedef struct
-{
+typedef struct {
     Uint8 data[16];
 } SDL_GUID;
 

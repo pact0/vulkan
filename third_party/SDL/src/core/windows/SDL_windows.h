@@ -89,8 +89,8 @@
 #define MINGW32_FORCEALIGN
 #endif
 
-#include <basetyps.h> /* for REFIID with broken mingw.org headers */
 #include <windows.h>
+#include <basetyps.h> /* for REFIID with broken mingw.org headers */
 
 /* Older Visual C++ headers don't have the Win64-compatible typedefs... */
 #if defined(_MSC_VER) && (_MSC_VER <= 1200)

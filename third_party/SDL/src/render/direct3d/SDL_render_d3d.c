@@ -27,12 +27,12 @@
 
 #include "../../core/windows/SDL_windows.h"
 
-#include "../../video/windows/SDL_windowsvideo.h"
-#include "../SDL_d3dmath.h"
-#include "../SDL_sysrender.h"
 #include "SDL_hints.h"
 #include "SDL_loadso.h"
 #include "SDL_syswm.h"
+#include "../SDL_sysrender.h"
+#include "../SDL_d3dmath.h"
+#include "../../video/windows/SDL_windowsvideo.h"
 
 #if SDL_VIDEO_RENDER_D3D
 #define D3D_DEBUG_INFO
@@ -1561,7 +1561,7 @@ SDL_Renderer *D3D_CreateRenderer(SDL_Window *window, Uint32 flags)
     SDL_DisplayMode fullscreen_mode;
     int displayIndex;
 
-    renderer = (SDL_Renderer *)SDL_calloc(1, sizeof(*renderer));
+    renderer = (SDL_Renderer *) SDL_calloc(1, sizeof(*renderer));
     if (renderer == NULL) {
         SDL_OutOfMemory();
         return NULL;

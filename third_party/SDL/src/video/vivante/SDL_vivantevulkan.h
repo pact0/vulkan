@@ -29,8 +29,8 @@
 #ifndef SDL_vivantevulkan_h_
 #define SDL_vivantevulkan_h_
 
-#include "../SDL_sysvideo.h"
 #include "../SDL_vulkan_internal.h"
+#include "../SDL_sysvideo.h"
 
 #if SDL_VIDEO_VULKAN && SDL_VIDEO_DRIVER_VIVANTE
 

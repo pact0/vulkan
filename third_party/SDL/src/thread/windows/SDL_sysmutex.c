@@ -30,6 +30,7 @@
  * which are chosen at runtime.
  */
 
+
 #include "SDL_hints.h"
 
 #include "SDL_sysmutex_c.h"

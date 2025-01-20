@@ -27,8 +27,8 @@
 
 /* This file contains portable stdlib functions for SDL */
 
-#include "../libm/math_libm.h"
 #include "SDL_stdinc.h"
+#include "../libm/math_libm.h"
 
 double
 SDL_atan(double x)
@@ -79,7 +79,8 @@ SDL_acos(double val)
         result = M_PI;
     } else {
         result = SDL_atan(SDL_sqrt(1.0 - val * val) / val);
-        if (result < 0.0) {
+        if (result < 0.0)
+        {
             result += M_PI;
         }
     }

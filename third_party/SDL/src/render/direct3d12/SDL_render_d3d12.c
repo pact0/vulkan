@@ -32,11 +32,11 @@
 
 #include "../../core/windows/SDL_windows.h"
 #include "../../video/windows/SDL_windowswindow.h"
-#include "../SDL_d3dmath.h"
-#include "../SDL_sysrender.h"
 #include "SDL_hints.h"
 #include "SDL_loadso.h"
 #include "SDL_syswm.h"
+#include "../SDL_sysrender.h"
+#include "../SDL_d3dmath.h"
 
 #if defined(__XBOXONE__) || defined(__XBOXSERIES__)
 #include "SDL_render_d3d12_xbox.h"
@@ -45,9 +45,9 @@
 #endif
 #else
 #include <d3d12.h>
-#include <d3d12sdklayers.h>
 #include <dxgi1_6.h>
 #include <dxgidebug.h>
+#include <d3d12sdklayers.h>
 #endif
 
 #include "SDL_shaders_d3d12.h"
@@ -1141,7 +1141,7 @@ static int D3D12_GetViewportAlignedD3DRect(SDL_Renderer *renderer, const SDL_Rec
 static HRESULT D3D12_CreateSwapChain(SDL_Renderer *renderer, int w, int h)
 {
     D3D12_RenderData *data = (D3D12_RenderData *)renderer->driverdata;
-    IDXGISwapChain1 *swapChain;
+    IDXGISwapChain1* swapChain;
     HRESULT result = S_OK;
     SDL_SysWMinfo windowinfo;
 
@@ -2274,20 +2274,20 @@ static int D3D12_UpdateViewport(SDL_Renderer *renderer)
      * direction of the DXGI_MODE_ROTATION enumeration.
      */
     switch (rotation) {
-    case DXGI_MODE_ROTATION_IDENTITY:
-        projection = MatrixIdentity();
-        break;
-    case DXGI_MODE_ROTATION_ROTATE270:
-        projection = MatrixRotationZ(SDL_static_cast(float, M_PI * 0.5f));
-        break;
-    case DXGI_MODE_ROTATION_ROTATE180:
-        projection = MatrixRotationZ(SDL_static_cast(float, M_PI));
-        break;
-    case DXGI_MODE_ROTATION_ROTATE90:
-        projection = MatrixRotationZ(SDL_static_cast(float, -M_PI * 0.5f));
-        break;
-    default:
-        return SDL_SetError("An unknown DisplayOrientation is being used");
+        case DXGI_MODE_ROTATION_IDENTITY:
+            projection = MatrixIdentity();
+            break;
+        case DXGI_MODE_ROTATION_ROTATE270:
+            projection = MatrixRotationZ(SDL_static_cast(float, M_PI * 0.5f));
+            break;
+        case DXGI_MODE_ROTATION_ROTATE180:
+            projection = MatrixRotationZ(SDL_static_cast(float, M_PI));
+            break;
+        case DXGI_MODE_ROTATION_ROTATE90:
+            projection = MatrixRotationZ(SDL_static_cast(float, -M_PI * 0.5f));
+            break;
+        default:
+            return SDL_SetError("An unknown DisplayOrientation is being used");
     }
 
     /* Update the view matrix */

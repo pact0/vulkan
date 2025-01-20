@@ -2,22 +2,22 @@
 
 #set -x
 
-cd $(dirname $0)/..
+cd `dirname $0`/..
 
 ARGSOKAY=1
 if [ -z $1 ]; then
-  ARGSOKAY=0
+    ARGSOKAY=0
 fi
 if [ -z $2 ]; then
-  ARGSOKAY=0
+    ARGSOKAY=0
 fi
 if [ -z $3 ]; then
-  ARGSOKAY=0
+    ARGSOKAY=0
 fi
 
 if [ "x$ARGSOKAY" = "x0" ]; then
-  echo "USAGE: $0 <major> <minor> <patch>" 1>&2
-  exit 1
+    echo "USAGE: $0 <major> <minor> <patch>" 1>&2
+    exit 1
 fi
 
 MAJOR="$1"
@@ -34,7 +34,7 @@ perl -w -pi -e 's/(Title SDL )\d+\.\d+\.\d+/${1}'$NEWVERSION'/;' Xcode/SDL/pkg-s
 
 perl -w -pi -e 's/(MARKETING_VERSION\s*=\s*)\d+\.\d+\.\d+/${1}'$NEWVERSION'/;' Xcode/SDL/SDL.xcodeproj/project.pbxproj
 
-DYVER=$(expr $MINOR \* 100 + 1)
+DYVER=`expr $MINOR \* 100 + 1`
 perl -w -pi -e 's/(DYLIB_CURRENT_VERSION\s*=\s*)\d+\.\d+\.\d+/${1}'$DYVER'.0.0/;' Xcode/SDL/SDL.xcodeproj/project.pbxproj
 
 # Set compat to major.minor.0 by default.
@@ -42,16 +42,16 @@ perl -w -pi -e 's/(DYLIB_COMPATIBILITY_VERSION\s*=\s*)\d+\.\d+\.\d+/${1}'$DYVER'
 
 # non-zero patch?
 if [ "x$PATCH" != "x0" ]; then
-  if [ $(expr $MINOR % 2) = "0" ]; then
-    # If patch is not zero, but minor is even, it's a bugfix release.
-    perl -w -pi -e 's/(DYLIB_CURRENT_VERSION\s*=\s*)\d+\.\d+\.\d+/${1}'$DYVER'.'$PATCH'.0/;' Xcode/SDL/SDL.xcodeproj/project.pbxproj
+    if [ `expr $MINOR % 2` = "0" ]; then
+        # If patch is not zero, but minor is even, it's a bugfix release.
+        perl -w -pi -e 's/(DYLIB_CURRENT_VERSION\s*=\s*)\d+\.\d+\.\d+/${1}'$DYVER'.'$PATCH'.0/;' Xcode/SDL/SDL.xcodeproj/project.pbxproj
 
-  else
-    # If patch is not zero, but minor is odd, it's a development prerelease.
-    DYVER=$(expr $MINOR \* 100 + $PATCH + 1)
-    perl -w -pi -e 's/(DYLIB_CURRENT_VERSION\s*=\s*)\d+\.\d+\.\d+/${1}'$DYVER'.0.0/;' Xcode/SDL/SDL.xcodeproj/project.pbxproj
-    perl -w -pi -e 's/(DYLIB_COMPATIBILITY_VERSION\s*=\s*)\d+\.\d+\.\d+/${1}'$DYVER'.0.0/;' Xcode/SDL/SDL.xcodeproj/project.pbxproj
-  fi
+    else
+        # If patch is not zero, but minor is odd, it's a development prerelease.
+        DYVER=`expr $MINOR \* 100 + $PATCH + 1`
+        perl -w -pi -e 's/(DYLIB_CURRENT_VERSION\s*=\s*)\d+\.\d+\.\d+/${1}'$DYVER'.0.0/;' Xcode/SDL/SDL.xcodeproj/project.pbxproj
+        perl -w -pi -e 's/(DYLIB_COMPATIBILITY_VERSION\s*=\s*)\d+\.\d+\.\d+/${1}'$DYVER'.0.0/;' Xcode/SDL/SDL.xcodeproj/project.pbxproj
+    fi
 fi
 
 perl -w -pi -e 's/\A(SDL_MAJOR_VERSION=)\d+/${1}'$MAJOR'/;' configure.ac
@@ -84,7 +84,7 @@ perl -w -pi -e 's/(VALUE "FileVersion", ")\d+, \d+, \d+/${1}'$MAJOR', '$MINOR', 
 perl -w -pi -e 's/(VALUE "ProductVersion", ")\d+, \d+, \d+/${1}'$MAJOR', '$MINOR', '$PATCH'/;' src/main/windows/version.rc
 
 echo "Regenerating configure script with new version..."
-./autogen.sh | grep -v 'Now you are ready to run ./configure'
+./autogen.sh |grep -v 'Now you are ready to run ./configure'
 
 echo "Running build-scripts/test-versioning.sh to verify changes..."
 ./build-scripts/test-versioning.sh
@@ -93,3 +93,4 @@ echo "All done."
 echo "Run 'git diff' and make sure this looks correct, before 'git commit'."
 
 exit 0
+

@@ -25,8 +25,8 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /* System dependent library loading routines                           */
 
-#include <dlfcn.h>
 #include <stdio.h>
+#include <dlfcn.h>
 
 #include "SDL_loadso.h"
 

@@ -19,8 +19,8 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_dynapi.h"
 #include "SDL_config.h"
+#include "SDL_dynapi.h"
 
 #if SDL_DYNAMIC_API
 
@@ -29,8 +29,8 @@
 #if defined(__OS2__)
 #define INCL_DOS
 #define INCL_DOSERRORS
-#include <dos.h>
 #include <os2.h>
+#include <dos.h>
 #endif
 
 #include "SDL.h"
@@ -161,7 +161,7 @@ static void SDL_InitDynamicAPI(void);
 /* The DEFAULT funcs will init jump table and then call real function. */
 /* The REAL funcs are the actual functions, name-mangled to not clash. */
 #define SDL_DYNAPI_PROC(rc, fn, params, args, ret) \
-    typedef rc(SDLCALL *SDL_DYNAPIFN_##fn) params; \
+    typedef rc (SDLCALL *SDL_DYNAPIFN_##fn) params;\
     static rc SDLCALL fn##_DEFAULT params;         \
     extern rc SDLCALL fn##_REAL params;
 #include "SDL_dynapi_procs.h"
@@ -280,14 +280,12 @@ static void SDLCALL SDL_LogMessage_LOGSDLCALLS(int category, SDL_LogPriority pri
     SDL_LogMessageV_REAL(category, priority, fmt, ap);
     va_end(ap);
 }
-#define SDL_DYNAPI_VARARGS_LOGFN_LOGSDLCALLS(logname, prio)                                                         \
-    static void SDLCALL SDL_Log##logname##_LOGSDLCALLS(int category, SDL_PRINTF_FORMAT_STRING const char *fmt, ...) \
-    {                                                                                                               \
-        va_list ap;                                                                                                 \
-        va_start(ap, fmt);                                                                                          \
-        SDL_Log_REAL("SDL2CALL SDL_Log%s", #logname);                                                               \
-        SDL_LogMessageV_REAL(category, SDL_LOG_PRIORITY_##prio, fmt, ap);                                           \
-        va_end(ap);                                                                                                 \
+#define SDL_DYNAPI_VARARGS_LOGFN_LOGSDLCALLS(logname, prio) \
+    static void SDLCALL SDL_Log##logname##_LOGSDLCALLS(int category, SDL_PRINTF_FORMAT_STRING const char *fmt, ...) { \
+        va_list ap; va_start(ap, fmt); \
+        SDL_Log_REAL("SDL2CALL SDL_Log%s", #logname); \
+        SDL_LogMessageV_REAL(category, SDL_LOG_PRIORITY_##prio, fmt, ap); \
+        va_end(ap); \
     }
 SDL_DYNAPI_VARARGS_LOGFN_LOGSDLCALLS(Verbose, VERBOSE)
 SDL_DYNAPI_VARARGS_LOGFN_LOGSDLCALLS(Debug, DEBUG)
@@ -295,12 +293,8 @@ SDL_DYNAPI_VARARGS_LOGFN_LOGSDLCALLS(Info, INFO)
 SDL_DYNAPI_VARARGS_LOGFN_LOGSDLCALLS(Warn, WARN)
 SDL_DYNAPI_VARARGS_LOGFN_LOGSDLCALLS(Error, ERROR)
 SDL_DYNAPI_VARARGS_LOGFN_LOGSDLCALLS(Critical, CRITICAL)
-#define SDL_DYNAPI_PROC(rc, fn, params, args, ret) \
-    rc SDLCALL fn##_LOGSDLCALLS params             \
-    {                                              \
-        SDL_Log_REAL("SDL2CALL %s", #fn);          \
-        ret fn##_REAL args;                        \
-    }
+#define SDL_DYNAPI_PROC(rc,fn,params,args,ret) \
+    rc SDLCALL fn##_LOGSDLCALLS params { SDL_Log_REAL("SDL2CALL %s", #fn); ret fn##_REAL args; }
 #define SDL_DYNAPI_PROC_NO_VARARGS 1
 #include "SDL_dynapi_procs.h"
 #undef SDL_DYNAPI_PROC
@@ -353,7 +347,7 @@ static Sint32 initialize_jumptable(Uint32 apiver, void *table, Uint32 tablesize)
 
 /* Here's the exported entry point that fills in the jump table. */
 /*  Use specific types when an "int" might suffice to keep this sane. */
-typedef Sint32(SDLCALL *SDL_DYNAPI_ENTRYFN)(Uint32 apiver, void *table, Uint32 tablesize);
+typedef Sint32 (SDLCALL *SDL_DYNAPI_ENTRYFN)(Uint32 apiver, void *table, Uint32 tablesize);
 extern DECLSPEC Sint32 SDLCALL SDL_DYNAPI_entry(Uint32, void *, Uint32);
 
 Sint32 SDL_DYNAPI_entry(Uint32 apiver, void *table, Uint32 tablesize)
@@ -377,7 +371,7 @@ static SDL_INLINE void *get_sdlapi_entry(const char *fname, const char *sym)
     HMODULE lib = LoadLibraryA(fname);
     void *retval = NULL;
     if (lib) {
-        retval = (void *)GetProcAddress(lib, sym);
+        retval = (void *) GetProcAddress(lib, sym);
         if (retval == NULL) {
             FreeLibrary(lib);
         }
@@ -508,22 +502,22 @@ static void SDL_InitDynamicAPI(void)
      */
     static SDL_bool already_initialized = SDL_FALSE;
 
-/* SDL_AtomicLock calls SDL mutex functions to emulate if
-   SDL_ATOMIC_DISABLED, which we can't do here, so in such a
-   configuration, you're on your own. */
-#if !SDL_ATOMIC_DISABLED
+    /* SDL_AtomicLock calls SDL mutex functions to emulate if
+       SDL_ATOMIC_DISABLED, which we can't do here, so in such a
+       configuration, you're on your own. */
+    #if !SDL_ATOMIC_DISABLED
     static SDL_SpinLock lock = 0;
     SDL_AtomicLock_REAL(&lock);
-#endif
+    #endif
 
     if (!already_initialized) {
         SDL_InitDynamicAPILocked();
         already_initialized = SDL_TRUE;
     }
 
-#if !SDL_ATOMIC_DISABLED
+    #if !SDL_ATOMIC_DISABLED
     SDL_AtomicUnlock_REAL(&lock);
-#endif
+    #endif
 }
 
 #endif /* SDL_DYNAMIC_API */

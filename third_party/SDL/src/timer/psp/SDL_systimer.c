@@ -22,14 +22,14 @@
 
 #ifdef SDL_TIMER_PSP
 
-#include "../SDL_timer_c.h"
-#include "SDL_error.h"
 #include "SDL_thread.h"
 #include "SDL_timer.h"
-#include <pspthreadman.h>
+#include "SDL_error.h"
+#include "../SDL_timer_c.h"
 #include <stdlib.h>
-#include <sys/time.h>
 #include <time.h>
+#include <sys/time.h>
+#include <pspthreadman.h>
 
 static struct timeval start;
 static SDL_bool ticks_started = SDL_FALSE;

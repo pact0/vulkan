@@ -1,45 +1,45 @@
 #!/bin/bash
 
 if [ -z "$SDKDIR" ]; then
-  SDKDIR="/emsdk"
+    SDKDIR="/emsdk"
 fi
 
 ENVSCRIPT="$SDKDIR/emsdk_env.sh"
 if [ ! -f "$ENVSCRIPT" ]; then
-  echo "ERROR: This script expects the Emscripten SDK to be in '$SDKDIR'." 1>&2
-  echo 'ERROR: Set the $SDKDIR environment variable to override this.' 1>&2
-  exit 1
+   echo "ERROR: This script expects the Emscripten SDK to be in '$SDKDIR'." 1>&2
+   echo "ERROR: Set the \$SDKDIR environment variable to override this." 1>&2
+   exit 1
 fi
 
 TARBALL="$1"
 if [ -z $1 ]; then
-  TARBALL=sdl-emscripten.tar.xz
+    TARBALL=sdl-emscripten.tar.xz
 fi
 
-cd $(dirname "$0")
+cd `dirname "$0"`
 cd ..
-SDLBASE=$(pwd)
+SDLBASE=`pwd`
 
 if [ -z "$MAKE" ]; then
-  OSTYPE=$(uname -s)
-  if [ "$OSTYPE" == "Linux" ]; then
-    NCPU=$(cat /proc/cpuinfo | grep vendor_id | wc -l)
-    let NCPU=NCPU+1
-  elif [ "$OSTYPE" = "Darwin" ]; then
-    NCPU=$(sysctl -n hw.ncpu)
-  elif [ "$OSTYPE" = "SunOS" ]; then
-    NCPU=$(/usr/sbin/psrinfo | wc -l | sed -e 's/^ *//g;s/ *$//g')
-  else
-    NCPU=1
-  fi
+    OSTYPE=`uname -s`
+    if [ "$OSTYPE" == "Linux" ]; then
+        NCPU=`cat /proc/cpuinfo |grep vendor_id |wc -l`
+        let NCPU=$NCPU+1
+    elif [ "$OSTYPE" = "Darwin" ]; then
+        NCPU=`sysctl -n hw.ncpu`
+    elif [ "$OSTYPE" = "SunOS" ]; then
+        NCPU=`/usr/sbin/psrinfo |wc -l |sed -e 's/^ *//g;s/ *$//g'`
+    else
+        NCPU=1
+    fi
 
-  if [ -z "$NCPU" ]; then
-    NCPU=1
-  elif [ "$NCPU" = "0" ]; then
-    NCPU=1
-  fi
+    if [ -z "$NCPU" ]; then
+        NCPU=1
+    elif [ "$NCPU" = "0" ]; then
+        NCPU=1
+    fi
 
-  MAKE="make -j$NCPU"
+    MAKE="make -j$NCPU"
 fi
 
 echo "\$MAKE is '$MAKE'"
@@ -73,3 +73,4 @@ popd
 exit 0
 
 # end of emscripten-buildbot.sh ...
+

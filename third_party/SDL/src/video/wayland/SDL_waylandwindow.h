@@ -24,9 +24,9 @@
 #ifndef SDL_waylandwindow_h_
 #define SDL_waylandwindow_h_
 
-#include "../../events/SDL_touch_c.h"
 #include "../SDL_sysvideo.h"
 #include "SDL_syswm.h"
+#include "../../events/SDL_touch_c.h"
 
 #include "SDL_waylandvideo.h"
 
@@ -143,7 +143,7 @@ extern void Wayland_DestroyWindow(_THIS, SDL_Window *window);
 extern void Wayland_SuspendScreenSaver(_THIS);
 
 extern SDL_bool
-Wayland_GetWindowWMInfo(_THIS, SDL_Window *window, SDL_SysWMinfo *info);
+Wayland_GetWindowWMInfo(_THIS, SDL_Window * window, SDL_SysWMinfo * info);
 extern int Wayland_SetWindowHitTest(SDL_Window *window, SDL_bool enabled);
 extern int Wayland_FlashWindow(_THIS, SDL_Window *window, SDL_FlashOperation operation);
 

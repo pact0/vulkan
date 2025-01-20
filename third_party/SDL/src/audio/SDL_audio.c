@@ -22,12 +22,12 @@
 
 /* Allow access to a raw mixing buffer */
 
-#include "../SDL_utils_c.h"
-#include "../thread/SDL_systhread.h"
 #include "SDL.h"
 #include "SDL_audio.h"
 #include "SDL_audio_c.h"
 #include "SDL_sysaudio.h"
+#include "../thread/SDL_systhread.h"
+#include "../SDL_utils_c.h"
 
 #define _THIS SDL_AudioDevice *_this
 
@@ -1555,8 +1555,8 @@ int SDL_OpenAudio(SDL_AudioSpec *desired, SDL_AudioSpec *obtained)
 }
 
 SDL_AudioDeviceID SDL_OpenAudioDevice(const char *device, int iscapture,
-                                      const SDL_AudioSpec *desired, SDL_AudioSpec *obtained,
-                                      int allowed_changes)
+                    const SDL_AudioSpec *desired, SDL_AudioSpec *obtained,
+                    int allowed_changes)
 {
     return open_audio_device(device, iscapture, desired, obtained,
                              allowed_changes, 2);

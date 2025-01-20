@@ -12,12 +12,12 @@ FINALDIR="$1"
 set -x
 set -e
 
-cd $(dirname "$0")
+cd `dirname "$0"`
 cd ..
 
 rm -rf codechecker-buildbot
 if [ ! -z "$FINALDIR" ]; then
-  rm -rf "$FINALDIR"
+    rm -rf "$FINALDIR"
 fi
 
 mkdir codechecker-buildbot
@@ -43,12 +43,12 @@ cd ..
 chmod -R a+r analysis
 chmod -R go-w analysis
 find analysis -type d -exec chmod a+x {} \;
-if [ -x /usr/bin/xattr ]; then find analysis -exec /usr/bin/xattr -d com.apple.quarantine {} \; 2>/dev/null; fi
+if [ -x /usr/bin/xattr ]; then find analysis -exec /usr/bin/xattr -d com.apple.quarantine {} \; 2>/dev/null ; fi
 
 if [ ! -z "$FINALDIR" ]; then
-  mv analysis "$FINALDIR"
+    mv analysis "$FINALDIR"
 else
-  FINALDIR=analysis
+    FINALDIR=analysis
 fi
 
 rm -rf codechecker-buildbot
@@ -56,3 +56,4 @@ rm -rf codechecker-buildbot
 echo "Done. Final output is in '$FINALDIR' ..."
 
 # end of codechecker-buildbot.sh ...
+

@@ -23,26 +23,26 @@
 
 #if SDL_VIDEO_DRIVER_WAYLAND
 
-#include "SDL_hints.h"
 #include "SDL_stdinc.h"
 #include "SDL_timer.h"
+#include "SDL_hints.h"
 
 #include "../../core/unix/SDL_poll.h"
 #include "../../events/SDL_events_c.h"
 #include "../../events/SDL_scancode_tables_c.h"
 #include "../SDL_sysvideo.h"
 
-#include "SDL_waylandevents_c.h"
 #include "SDL_waylandvideo.h"
+#include "SDL_waylandevents_c.h"
 #include "SDL_waylandwindow.h"
 
-#include "keyboard-shortcuts-inhibit-unstable-v1-client-protocol.h"
 #include "pointer-constraints-unstable-v1-client-protocol.h"
-#include "primary-selection-unstable-v1-client-protocol.h"
 #include "relative-pointer-unstable-v1-client-protocol.h"
-#include "tablet-unstable-v2-client-protocol.h"
-#include "text-input-unstable-v3-client-protocol.h"
 #include "xdg-shell-client-protocol.h"
+#include "keyboard-shortcuts-inhibit-unstable-v1-client-protocol.h"
+#include "text-input-unstable-v3-client-protocol.h"
+#include "tablet-unstable-v2-client-protocol.h"
+#include "primary-selection-unstable-v1-client-protocol.h"
 
 #ifdef HAVE_LIBDECOR_H
 #include <libdecor.h>
@@ -57,13 +57,13 @@
 #define BTN_SIDE   (0x113)
 #define BTN_EXTRA  (0x114)
 #endif
-#include "../../events/SDL_keysym_to_scancode_c.h"
-#include "../../events/imKStoUCS.h"
-#include <errno.h>
 #include <sys/mman.h>
 #include <unistd.h>
-#include <xkbcommon/xkbcommon-compose.h>
+#include <errno.h>
 #include <xkbcommon/xkbcommon.h>
+#include <xkbcommon/xkbcommon-compose.h>
+#include "../../events/imKStoUCS.h"
+#include "../../events/SDL_keysym_to_scancode_c.h"
 
 /* Clamp the wl_seat version on older versions of libwayland. */
 #if SDL_WAYLAND_CHECK_VERSION(1, 21, 0)
@@ -1572,10 +1572,10 @@ static void data_device_handle_enter(void *data, struct wl_data_device *wl_data_
 
         /* find the current window */
         if (surface && SDL_WAYLAND_own_surface(surface)) {
-            SDL_WindowData *window = (SDL_WindowData *)wl_surface_get_user_data(surface);
-            if (window) {
-                data_device->dnd_window = window->sdlwindow;
-            }
+           SDL_WindowData *window = (SDL_WindowData *)wl_surface_get_user_data(surface);
+           if (window) {
+              data_device->dnd_window = window->sdlwindow;
+           }
         }
     }
 }

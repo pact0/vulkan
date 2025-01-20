@@ -20,8 +20,8 @@
 */
 #include "../../SDL_internal.h"
 
-#include "SDL_hints.h"
 #include "SDL_system.h"
+#include "SDL_hints.h"
 
 #include <pthread.h>
 
@@ -29,13 +29,13 @@
 #include <pthread_np.h>
 #endif
 
-#include <errno.h>
 #include <signal.h>
+#include <errno.h>
 
 #ifdef __LINUX__
+#include <sys/time.h>
 #include <sys/resource.h>
 #include <sys/syscall.h>
-#include <sys/time.h>
 #include <unistd.h>
 
 #include "../../core/linux/SDL_dbus.h"
@@ -48,9 +48,9 @@
 #endif
 #endif
 
-#include "../SDL_systhread.h"
-#include "../SDL_thread_c.h"
 #include "SDL_thread.h"
+#include "../SDL_thread_c.h"
+#include "../SDL_systhread.h"
 #ifdef __ANDROID__
 #include "../../core/android/SDL_android.h"
 #endif
@@ -58,6 +58,7 @@
 #ifdef __HAIKU__
 #include <kernel/OS.h>
 #endif
+
 
 #ifndef __NACL__
 /* List of signals to mask in the subthreads */
@@ -87,15 +88,15 @@ int SDL_SYS_CreateThread(SDL_Thread *thread)
 {
     pthread_attr_t type;
 
-/* do this here before any threads exist, so there's no race condition. */
-#if (defined(__MACOSX__) || defined(__IPHONEOS__) || defined(__LINUX__)) && defined(HAVE_DLOPEN)
+    /* do this here before any threads exist, so there's no race condition. */
+    #if (defined(__MACOSX__) || defined(__IPHONEOS__) || defined(__LINUX__)) && defined(HAVE_DLOPEN)
     if (!checked_setname) {
         void *fn = dlsym(RTLD_DEFAULT, "pthread_setname_np");
-#if defined(__MACOSX__) || defined(__IPHONEOS__)
-        ppthread_setname_np = (int (*)(const char *))fn;
-#elif defined(__LINUX__)
-        ppthread_setname_np = (int (*)(pthread_t, const char *))fn;
-#endif
+        #if defined(__MACOSX__) || defined(__IPHONEOS__)
+        ppthread_setname_np = (int(*)(const char*)) fn;
+        #elif defined(__LINUX__)
+        ppthread_setname_np = (int(*)(pthread_t, const char*)) fn;
+        #endif
         checked_setname = SDL_TRUE;
     }
 #endif
@@ -127,10 +128,10 @@ void SDL_SYS_SetupThread(const char *name)
 #endif /* !__NACL__ */
 
     if (name != NULL) {
-#if (defined(__MACOSX__) || defined(__IPHONEOS__) || defined(__LINUX__)) && defined(HAVE_DLOPEN)
+        #if (defined(__MACOSX__) || defined(__IPHONEOS__) || defined(__LINUX__)) && defined(HAVE_DLOPEN)
         SDL_assert(checked_setname);
         if (ppthread_setname_np != NULL) {
-#if defined(__MACOSX__) || defined(__IPHONEOS__)
+            #if defined(__MACOSX__) || defined(__IPHONEOS__)
             ppthread_setname_np(name);
 #elif defined(__LINUX__)
             if (ppthread_setname_np(pthread_self(), name) == ERANGE) {
@@ -160,7 +161,7 @@ void SDL_SYS_SetupThread(const char *name)
 #endif
     }
 
-    /* NativeClient does not yet support signals.*/
+   /* NativeClient does not yet support signals.*/
 #if !defined(__NACL__)
     /* Mask asynchronous signals for this thread */
     sigemptyset(&mask);
@@ -169,6 +170,7 @@ void SDL_SYS_SetupThread(const char *name)
     }
     pthread_sigmask(SIG_BLOCK, &mask, 0);
 #endif /* !__NACL__ */
+
 
 #ifdef PTHREAD_CANCEL_ASYNCHRONOUS
     /* Allow ourselves to be asynchronously cancelled */

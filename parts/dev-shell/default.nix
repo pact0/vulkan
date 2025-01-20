@@ -79,7 +79,7 @@
           libGL
 
           SDL2
-          llvmPackages.clang-unwrapped
+          # llvmPackages.clang-unwrapped
           libcxx
           libevdev
           lld

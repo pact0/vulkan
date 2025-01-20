@@ -29,20 +29,23 @@
 
 #include "../../main/haiku/SDL_BeApp.h"
 
-extern "C" {
+extern "C"
+{
 
+#include "SDL_audio.h"
 #include "../SDL_audio_c.h"
 #include "../SDL_sysaudio.h"
-#include "SDL_audio.h"
 #include "SDL_haikuaudio.h"
+
 }
+
 
 /* !!! FIXME: have the callback call the higher level to avoid code dupe. */
 /* The Haiku callback for handling the audio buffer */
 static void FillSound(void *device, void *stream, size_t len,
-                      const media_raw_audio_format &format)
+          const media_raw_audio_format & format)
 {
-    SDL_AudioDevice *audio = (SDL_AudioDevice *)device;
+    SDL_AudioDevice *audio = (SDL_AudioDevice *) device;
     SDL_AudioCallback callback = audio->callbackspec.callback;
 
     SDL_LockMutex(audio->mixer_lock);
@@ -56,11 +59,11 @@ static void FillSound(void *device, void *stream, size_t len,
     } else {
         SDL_assert(audio->spec.size == len);
 
-        if (audio->stream == NULL) { /* no conversion necessary. */
-            callback(audio->callbackspec.userdata, (Uint8 *)stream, len);
-        } else { /* streaming/converting */
+        if (audio->stream == NULL) {  /* no conversion necessary. */
+            callback(audio->callbackspec.userdata, (Uint8 *) stream, len);
+        } else {  /* streaming/converting */
             const int stream_len = audio->callbackspec.size;
-            const int ilen = (int)len;
+            const int ilen = (int) len;
             while (SDL_AudioStreamAvailable(audio->stream) < ilen) {
                 callback(audio->callbackspec.userdata, audio->work_buffer, stream_len);
                 if (SDL_AudioStreamPut(audio->stream, audio->work_buffer, stream_len) == -1) {
@@ -90,11 +93,12 @@ static void HAIKUAUDIO_CloseDevice(_THIS)
     delete _this->hidden;
 }
 
+
 static const int sig_list[] = {
     SIGHUP, SIGINT, SIGQUIT, SIGPIPE, SIGALRM, SIGTERM, SIGWINCH, 0
 };
 
-static inline void MaskSignals(sigset_t *omask)
+static inline void MaskSignals(sigset_t * omask)
 {
     sigset_t mask;
     int i;
@@ -106,10 +110,11 @@ static inline void MaskSignals(sigset_t *omask)
     sigprocmask(SIG_BLOCK, &mask, omask);
 }
 
-static inline void UnmaskSignals(sigset_t *omask)
+static inline void UnmaskSignals(sigset_t * omask)
 {
     sigprocmask(SIG_SETMASK, omask, NULL);
 }
+
 
 static int HAIKUAUDIO_OpenDevice(_THIS, const char *devname)
 {
@@ -126,8 +131,8 @@ static int HAIKUAUDIO_OpenDevice(_THIS, const char *devname)
     /* Parse the audio format and fill the Be raw audio format */
     SDL_zero(format);
     format.byte_order = B_MEDIA_LITTLE_ENDIAN;
-    format.frame_rate = (float)_this->spec.freq;
-    format.channel_count = _this->spec.channels; /* !!! FIXME: support > 2? */
+    format.frame_rate = (float) _this->spec.freq;
+    format.channel_count = _this->spec.channels;        /* !!! FIXME: support > 2? */
     for (test_format = SDL_FirstAudioFormat(_this->spec.format); test_format; test_format = SDL_NextAudioFormat()) {
         switch (test_format) {
         case AUDIO_S8:
@@ -171,7 +176,7 @@ static int HAIKUAUDIO_OpenDevice(_THIS, const char *devname)
         break;
     }
 
-    if (!test_format) { /* shouldn't happen, but just in case... */
+    if (!test_format) {      /* shouldn't happen, but just in case... */
         return SDL_SetError("%s: Unsupported audio format", "haiku");
     }
     _this->spec.format = test_format;
@@ -203,7 +208,7 @@ static void HAIKUAUDIO_Deinitialize(void)
     SDL_QuitBeApp();
 }
 
-static SDL_bool HAIKUAUDIO_Init(SDL_AudioDriverImpl *impl)
+static SDL_bool HAIKUAUDIO_Init(SDL_AudioDriverImpl * impl)
 {
     /* Initialize the Be Application, if it's not already started */
     if (SDL_InitBeApp() < 0) {
@@ -217,11 +222,12 @@ static SDL_bool HAIKUAUDIO_Init(SDL_AudioDriverImpl *impl)
     impl->ProvidesOwnCallbackThread = SDL_TRUE;
     impl->OnlyHasDefaultOutputDevice = SDL_TRUE;
 
-    return SDL_TRUE; /* this audio target is available. */
+    return SDL_TRUE;   /* this audio target is available. */
 }
 
-extern "C" {
-extern AudioBootStrap HAIKUAUDIO_bootstrap;
+extern "C"
+{
+    extern AudioBootStrap HAIKUAUDIO_bootstrap;
 }
 AudioBootStrap HAIKUAUDIO_bootstrap = {
     "haiku", "Haiku BSoundPlayer", HAIKUAUDIO_Init, SDL_FALSE

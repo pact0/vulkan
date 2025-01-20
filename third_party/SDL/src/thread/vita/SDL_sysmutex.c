@@ -22,11 +22,11 @@
 
 #if SDL_THREAD_VITA
 
-#include "SDL_systhread_c.h"
 #include "SDL_thread.h"
+#include "SDL_systhread_c.h"
 
-#include <psp2/kernel/error.h>
 #include <psp2/kernel/threadmgr.h>
+#include <psp2/kernel/error.h>
 
 struct SDL_mutex
 {

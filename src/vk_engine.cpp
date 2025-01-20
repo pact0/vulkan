@@ -1,8 +1,13 @@
 //> includes
 #include "vk_engine.h"
 
+#if defined(_WIN32)
+#include <SDL.h>
+#include <SDL_vulkan.h>
+#else
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_vulkan.h>
+#endif
 
 #include <vk_initializers.h>
 #include <vk_types.h>

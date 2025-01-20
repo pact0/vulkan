@@ -26,15 +26,15 @@
 
 #include <AppKit.h>
 #include <storage/AppFileInfo.h>
+#include <storage/Path.h>
 #include <storage/Entry.h>
 #include <storage/File.h>
-#include <storage/Path.h>
 #include <unistd.h>
 
-#include "SDL_BApp.h" /* SDL_BLooper class definition */
+#include "SDL_BApp.h"   /* SDL_BLooper class definition */
 #include "SDL_BeApp.h"
-#include "SDL_error.h"
 #include "SDL_timer.h"
+#include "SDL_error.h"
 
 #include "../../video/haiku/SDL_BWin.h"
 
@@ -49,23 +49,24 @@ static int SDL_BeAppActive = 0;
 static SDL_Thread *SDL_AppThread = NULL;
 SDL_BLooper *SDL_Looper = NULL;
 
+
 /* Default application signature */
 const char *SDL_signature = "application/x-SDL-executable";
 
+
 /* Create a descendant of BApplication */
-class SDL_BApp : public BApplication
-{
-  public:
-    SDL_BApp(const char *signature) : BApplication(signature)
-    {
+class SDL_BApp : public BApplication {
+public:
+    SDL_BApp(const char* signature) :
+        BApplication(signature) {
     }
 
-    virtual ~SDL_BApp()
-    {
+
+    virtual ~SDL_BApp() {
     }
 
-    virtual void RefsReceived(BMessage *message)
-    {
+
+    virtual void RefsReceived(BMessage* message) {
         entry_ref entryRef;
         for (int32 i = 0; message->FindRef("refs", i, &entryRef) == B_OK; i++) {
             BPath referencePath = BPath(&entryRef);
@@ -74,6 +75,7 @@ class SDL_BApp : public BApplication
         return;
     }
 };
+
 
 static int StartBeApp(void *unused)
 {
@@ -102,6 +104,7 @@ static int StartBeApp(void *unused)
     return 0;
 }
 
+
 static int StartBeLooper()
 {
     if (!be_app) {
@@ -115,7 +118,7 @@ static int StartBeLooper()
         } while ((be_app == NULL) || be_app->IsLaunching());
     }
 
-    /* Change working directory to that of executable */
+     /* Change working directory to that of executable */
     app_info info;
     if (B_OK == be_app->GetAppInfo(&info)) {
         entry_ref ref = info.ref;
@@ -134,6 +137,7 @@ static int StartBeLooper()
     SDL_Looper->Run();
     return (0);
 }
+
 
 /* Initialize the Be Application, if it's not already started */
 int SDL_InitBeApp(void)
@@ -165,7 +169,7 @@ void SDL_QuitBeApp(void)
         SDL_Looper->Quit();
         SDL_Looper = NULL;
         if (SDL_AppThread != NULL) {
-            if (be_app != NULL) { /* Not tested */
+            if (be_app != NULL) {       /* Not tested */
                 be_app->PostMessage(B_QUIT_REQUESTED);
             }
             SDL_WaitThread(SDL_AppThread, NULL);
@@ -180,8 +184,7 @@ void SDL_QuitBeApp(void)
 #endif
 
 /* SDL_BApp functions */
-void SDL_BLooper::ClearID(SDL_BWin *bwin)
-{
+void SDL_BLooper::ClearID(SDL_BWin *bwin) {
     _SetSDLWindow(NULL, bwin->GetID());
     int32 i = _GetNumWindowSlots() - 1;
     while (i >= 0 && GetSDLWindow(i) == NULL) {

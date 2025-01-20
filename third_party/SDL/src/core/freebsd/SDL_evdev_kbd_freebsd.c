@@ -28,11 +28,11 @@
 
 /* This logic is adapted from drivers/tty/vt/keyboard.c in the Linux kernel source, slightly modified to work with FreeBSD */
 
+#include <unistd.h>
 #include <fcntl.h>
-#include <sys/consio.h>
 #include <sys/ioctl.h>
 #include <sys/kbio.h>
-#include <unistd.h>
+#include <sys/consio.h>
 
 #include <signal.h>
 

@@ -27,13 +27,13 @@
 
 /* This logic is adapted from drivers/tty/vt/keyboard.c in the Linux kernel source */
 
+#include <unistd.h>
 #include <fcntl.h>
+#include <sys/ioctl.h>
 #include <linux/kd.h>
 #include <linux/keyboard.h>
-#include <linux/tiocl.h> /* for TIOCL_GETSHIFTSTATE */
 #include <linux/vt.h>
-#include <sys/ioctl.h>
-#include <unistd.h>
+#include <linux/tiocl.h> /* for TIOCL_GETSHIFTSTATE */
 
 #include <signal.h>
 

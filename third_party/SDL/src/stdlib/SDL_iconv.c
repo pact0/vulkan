@@ -27,16 +27,16 @@
 
 /* This file contains portable iconv functions for SDL */
 
-#include "SDL_endian.h"
 #include "SDL_stdinc.h"
+#include "SDL_endian.h"
 
 #if defined(HAVE_ICONV) && defined(HAVE_ICONV_H)
 #ifdef __FreeBSD__
 /* Define LIBICONV_PLUG to use iconv from the base instead of ports and avoid linker errors. */
 #define LIBICONV_PLUG 1
 #endif
-#include <errno.h>
 #include <iconv.h>
+#include <errno.h>
 
 SDL_COMPILE_TIME_ASSERT(iconv_t, sizeof(iconv_t) <= sizeof(SDL_iconv_t));
 
@@ -51,8 +51,8 @@ int SDL_iconv_close(SDL_iconv_t cd)
 }
 
 size_t SDL_iconv(SDL_iconv_t cd,
-                 const char **inbuf, size_t *inbytesleft,
-                 char **outbuf, size_t *outbytesleft)
+          const char **inbuf, size_t *inbytesleft,
+          char **outbuf, size_t *outbytesleft)
 {
     /* iconv's second parameter may or may not be `const char const *` depending on the
        C runtime's whims. Casting to void * seems to make everyone happy, though. */

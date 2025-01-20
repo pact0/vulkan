@@ -22,8 +22,8 @@
 
 #if SDL_HAVE_BLIT_0
 
-#include "SDL_blit.h"
 #include "SDL_video.h"
+#include "SDL_blit.h"
 
 /* Functions to blit from bitmaps to other surfaces */
 
@@ -769,7 +769,7 @@ SDL_BlitFunc SDL_CalculateBlit0(SDL_Surface *surface)
 
     if (surface->format->BitsPerPixel != 1) {
         /* We don't support sub 8-bit packed pixel modes */
-        return (SDL_BlitFunc)NULL;
+        return (SDL_BlitFunc) NULL;
     }
     if (surface->map->dst->format->BitsPerPixel < 8) {
         which = 0;
@@ -784,12 +784,12 @@ SDL_BlitFunc SDL_CalculateBlit0(SDL_Surface *surface)
         return colorkey_blit[which];
 
     case SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
-        return which >= 2 ? BlitBtoNAlpha : (SDL_BlitFunc)NULL;
+        return which >= 2 ? BlitBtoNAlpha : (SDL_BlitFunc) NULL;
 
     case SDL_COPY_COLORKEY | SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
-        return which >= 2 ? BlitBtoNAlphaKey : (SDL_BlitFunc)NULL;
+        return which >= 2 ? BlitBtoNAlphaKey : (SDL_BlitFunc) NULL;
     }
-    return (SDL_BlitFunc)NULL;
+    return (SDL_BlitFunc) NULL;
 }
 
 #endif /* SDL_HAVE_BLIT_0 */

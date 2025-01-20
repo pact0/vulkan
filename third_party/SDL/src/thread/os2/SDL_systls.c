@@ -25,8 +25,8 @@
 
 #include "../../core/os2/SDL_os2.h"
 
-#include "../SDL_thread_c.h"
 #include "SDL_thread.h"
+#include "../SDL_thread_c.h"
 
 #define INCL_DOSPROCESS
 #define INCL_DOSERRORS
@@ -34,7 +34,7 @@
 
 SDL_TLSData **ppSDLTLSData = NULL;
 
-static ULONG cTLSAlloc = 0;
+static ULONG  cTLSAlloc = 0;
 
 /* SDL_OS2TLSAlloc() called from SDL_InitSubSystem() */
 void SDL_OS2TLSAlloc(void)
@@ -72,7 +72,7 @@ void SDL_OS2TLSFree(void)
 
 SDL_TLSData *SDL_SYS_GetTLSData(void)
 {
-    return (ppSDLTLSData == NULL) ? NULL : *ppSDLTLSData;
+    return (ppSDLTLSData == NULL)? NULL : *ppSDLTLSData;
 }
 
 int SDL_SYS_SetTLSData(SDL_TLSData *data)

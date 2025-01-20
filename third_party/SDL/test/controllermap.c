@@ -808,7 +808,8 @@ int main(int argc, char *argv[])
 
 #else
 
-int main(int argc, char *argv[])
+int
+main(int argc, char *argv[])
 {
     SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "SDL compiled without Joystick support.\n");
     return 1;

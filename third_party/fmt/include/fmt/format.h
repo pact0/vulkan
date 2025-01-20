@@ -1153,10 +1153,10 @@ using uint32_or_64_or_128_t =
 template <typename T>
 using uint64_or_128_t = conditional_t<num_bits<T>() <= 64, uint64_t, uint128_t>;
 
-#define FMT_POWERS_OF_10(factor)                                  \
-  factor * 10, (factor) * 100, (factor) * 1000, (factor) * 10000, \
-      (factor) * 100000, (factor) * 1000000, (factor) * 10000000, \
-      (factor) * 100000000, (factor) * 1000000000
+#define FMT_POWERS_OF_10(factor)                                             \
+  factor * 10, (factor)*100, (factor)*1000, (factor)*10000, (factor)*100000, \
+      (factor)*1000000, (factor)*10000000, (factor)*100000000,               \
+      (factor)*1000000000
 
 // Converts value in the range [0, 100) to a string.
 constexpr const char* digits2(size_t value) {
@@ -3178,10 +3178,8 @@ FMT_CONSTEXPR20 inline void format_dragon(basic_fp<uint128_t> value,
       }
       if (buf[0] == overflow) {
         buf[0] = '1';
-        if ((flags & dragon::fixed) != 0)
-          buf.push_back('0');
-        else
-          ++exp10;
+        if ((flags & dragon::fixed) != 0) buf.push_back('0');
+        else ++exp10;
       }
       return;
     }

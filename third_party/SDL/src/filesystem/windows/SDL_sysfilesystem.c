@@ -29,8 +29,8 @@
 #include <shlobj.h>
 
 #include "SDL_error.h"
-#include "SDL_filesystem.h"
 #include "SDL_stdinc.h"
+#include "SDL_filesystem.h"
 
 char *SDL_GetBasePath(void)
 {
@@ -171,8 +171,8 @@ char *SDL_GetPrefPath(const char *org, const char *app)
 #endif /* SDL_FILESYSTEM_WINDOWS */
 
 #ifdef SDL_FILESYSTEM_XBOX
-#include "SDL_error.h"
 #include "SDL_filesystem.h"
+#include "SDL_error.h"
 char *SDL_GetBasePath(void)
 {
     SDL_Unsupported();

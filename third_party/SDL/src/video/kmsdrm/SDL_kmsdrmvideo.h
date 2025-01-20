@@ -26,12 +26,12 @@
 
 #include "../SDL_sysvideo.h"
 
-#include <EGL/egl.h>
 #include <fcntl.h>
-#include <gbm.h>
 #include <unistd.h>
 #include <xf86drm.h>
 #include <xf86drmMode.h>
+#include <gbm.h>
+#include <EGL/egl.h>
 
 typedef struct SDL_VideoData
 {
@@ -119,28 +119,28 @@ SDL_bool KMSDRM_WaitPageflip(_THIS, SDL_WindowData *windata);
 /* Display and window functions */
 int KMSDRM_VideoInit(_THIS);
 void KMSDRM_VideoQuit(_THIS);
-void KMSDRM_GetDisplayModes(_THIS, SDL_VideoDisplay *display);
-int KMSDRM_SetDisplayMode(_THIS, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-int KMSDRM_CreateWindow(_THIS, SDL_Window *window);
-int KMSDRM_CreateWindowFrom(_THIS, SDL_Window *window, const void *data);
-void KMSDRM_SetWindowTitle(_THIS, SDL_Window *window);
-void KMSDRM_SetWindowIcon(_THIS, SDL_Window *window, SDL_Surface *icon);
-void KMSDRM_SetWindowPosition(_THIS, SDL_Window *window);
-void KMSDRM_SetWindowSize(_THIS, SDL_Window *window);
-void KMSDRM_SetWindowFullscreen(_THIS, SDL_Window *window, SDL_VideoDisplay *_display, SDL_bool fullscreen);
-int KMSDRM_SetWindowGammaRamp(_THIS, SDL_Window *window, const Uint16 *ramp);
-int KMSDRM_GetWindowGammaRamp(_THIS, SDL_Window *window, Uint16 *ramp);
-void KMSDRM_ShowWindow(_THIS, SDL_Window *window);
-void KMSDRM_HideWindow(_THIS, SDL_Window *window);
-void KMSDRM_RaiseWindow(_THIS, SDL_Window *window);
-void KMSDRM_MaximizeWindow(_THIS, SDL_Window *window);
-void KMSDRM_MinimizeWindow(_THIS, SDL_Window *window);
-void KMSDRM_RestoreWindow(_THIS, SDL_Window *window);
-void KMSDRM_DestroyWindow(_THIS, SDL_Window *window);
+void KMSDRM_GetDisplayModes(_THIS, SDL_VideoDisplay * display);
+int KMSDRM_SetDisplayMode(_THIS, SDL_VideoDisplay * display, SDL_DisplayMode * mode);
+int KMSDRM_CreateWindow(_THIS, SDL_Window * window);
+int KMSDRM_CreateWindowFrom(_THIS, SDL_Window * window, const void *data);
+void KMSDRM_SetWindowTitle(_THIS, SDL_Window * window);
+void KMSDRM_SetWindowIcon(_THIS, SDL_Window * window, SDL_Surface * icon);
+void KMSDRM_SetWindowPosition(_THIS, SDL_Window * window);
+void KMSDRM_SetWindowSize(_THIS, SDL_Window * window);
+void KMSDRM_SetWindowFullscreen(_THIS, SDL_Window * window, SDL_VideoDisplay * _display, SDL_bool fullscreen);
+int KMSDRM_SetWindowGammaRamp(_THIS, SDL_Window * window, const Uint16 * ramp);
+int KMSDRM_GetWindowGammaRamp(_THIS, SDL_Window * window, Uint16 * ramp);
+void KMSDRM_ShowWindow(_THIS, SDL_Window * window);
+void KMSDRM_HideWindow(_THIS, SDL_Window * window);
+void KMSDRM_RaiseWindow(_THIS, SDL_Window * window);
+void KMSDRM_MaximizeWindow(_THIS, SDL_Window * window);
+void KMSDRM_MinimizeWindow(_THIS, SDL_Window * window);
+void KMSDRM_RestoreWindow(_THIS, SDL_Window * window);
+void KMSDRM_DestroyWindow(_THIS, SDL_Window * window);
 
 /* Window manager function */
-SDL_bool KMSDRM_GetWindowWMInfo(_THIS, SDL_Window *window,
-                                struct SDL_SysWMinfo *info);
+SDL_bool KMSDRM_GetWindowWMInfo(_THIS, SDL_Window * window,
+                             struct SDL_SysWMinfo *info);
 
 /* OpenGL/OpenGL ES functions */
 int KMSDRM_GLES_LoadLibrary(_THIS, const char *path);

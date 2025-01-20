@@ -45,6 +45,7 @@
 extern "C" {
 #endif
 
+
 /**
  *  \brief The maximum size of a log message prior to SDL 2.0.24
  *
@@ -108,6 +109,7 @@ typedef enum
     SDL_LOG_PRIORITY_CRITICAL,
     SDL_NUM_LOG_PRIORITIES
 } SDL_LogPriority;
+
 
 /**
  * Set the priority of all log categories.
@@ -362,7 +364,7 @@ extern DECLSPEC void SDLCALL SDL_LogMessageV(int category,
  * \param priority the priority of the message
  * \param message the message being output
  */
-typedef void(SDLCALL *SDL_LogOutputFunction)(void *userdata, int category, SDL_LogPriority priority, const char *message);
+typedef void (SDLCALL *SDL_LogOutputFunction)(void *userdata, int category, SDL_LogPriority priority, const char *message);
 
 /**
  * Get the current log output function.
@@ -389,6 +391,7 @@ extern DECLSPEC void SDLCALL SDL_LogGetOutputFunction(SDL_LogOutputFunction *cal
  * \sa SDL_LogGetOutputFunction
  */
 extern DECLSPEC void SDLCALL SDL_LogSetOutputFunction(SDL_LogOutputFunction callback, void *userdata);
+
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus

@@ -32,9 +32,9 @@
 #include <sys/param.h>
 #include <sys/stat.h>
 
-#include <errno.h>
-#include <fcntl.h>
 #include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
 
 #ifndef __FreeBSD_kernel_version
 #define __FreeBSD_kernel_version __FreeBSD_version
@@ -73,10 +73,10 @@
 #include <machine/joystick.h>
 #endif
 
-#include "../SDL_joystick_c.h"
-#include "../SDL_sysjoystick.h"
-#include "../hidapi/SDL_hidapijoystick_c.h"
 #include "SDL_joystick.h"
+#include "../SDL_sysjoystick.h"
+#include "../SDL_joystick_c.h"
+#include "../hidapi/SDL_hidapijoystick_c.h"
 
 #if defined(__FREEBSD__) || SDL_HAVE_MACHINE_JOYSTICK_H || defined(__FreeBSD_kernel__) || defined(__DragonFly_)
 #define SUPPORT_JOY_GAMEPORT

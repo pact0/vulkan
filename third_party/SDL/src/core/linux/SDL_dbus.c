@@ -18,12 +18,12 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_dbus.h"
 #include "../../SDL_internal.h"
-#include "../../stdlib/SDL_vacopy.h"
-#include "SDL_atomic.h"
 #include "SDL_hints.h"
+#include "SDL_dbus.h"
+#include "SDL_atomic.h"
 #include "SDL_sandbox.h"
+#include "../../stdlib/SDL_vacopy.h"
 
 #if SDL_USE_LIBDBUS
 /* we never link directly to libdbus. */
@@ -36,7 +36,7 @@ static SDL_DBusContext dbus;
 
 static int LoadDBUSSyms(void)
 {
-#define SDL_DBUS_SYM2_OPTIONAL(x, y) \
+#define SDL_DBUS_SYM2_OPTIONAL(x, y)                   \
     dbus.x = SDL_LoadFunction(dbus_handle, #y)
 
 #define SDL_DBUS_SYM2(x, y)                            \

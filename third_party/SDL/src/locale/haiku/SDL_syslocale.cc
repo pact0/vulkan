@@ -53,7 +53,7 @@ void SDL_SYS_GetPreferredLocales(char *buf, size_t buflen)
 
         const size_t len = SDL_strlen(str);
         if (buflen <= len) {
-            break; // can't fit it, we're done.
+            break;  // can't fit it, we're done.
         }
 
         SDL_strlcpy(buf, str, buflen);
@@ -62,9 +62,9 @@ void SDL_SYS_GetPreferredLocales(char *buf, size_t buflen)
 
         if (i < (numlangs - 1)) {
             if (buflen <= 1) {
-                break; // out of room, stop looking.
+                break;  // out of room, stop looking.
             }
-            buf[0] = ','; // add a comma between entries.
+            buf[0] = ',';  // add a comma between entries.
             buf[1] = '\0';
             buf++;
             buflen--;
@@ -73,3 +73,4 @@ void SDL_SYS_GetPreferredLocales(char *buf, size_t buflen)
 }
 
 /* vi: set ts=4 sw=4 expandtab: */
+

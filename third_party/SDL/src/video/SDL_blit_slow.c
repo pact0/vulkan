@@ -20,9 +20,9 @@
 */
 #include "../SDL_internal.h"
 
+#include "SDL_video.h"
 #include "SDL_blit.h"
 #include "SDL_blit_slow.h"
-#include "SDL_video.h"
 
 #define FORMAT_ALPHA                0
 #define FORMAT_NO_ALPHA             -1

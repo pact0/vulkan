@@ -14,13 +14,13 @@
  * configured properly. See README-gdk.md.
  */
 
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <time.h>
 
-#include "../src/core/windows/SDL_windows.h"
 #include "SDL_test.h"
 #include "SDL_test_common.h"
+#include "../src/core/windows/SDL_windows.h"
 
 extern "C" {
 #include "../test/testutils.h"
@@ -28,8 +28,8 @@ extern "C" {
 
 #include <XGameRuntime.h>
 
-#define NUM_SPRITES 100
-#define MAX_SPEED   1
+#define NUM_SPRITES    100
+#define MAX_SPEED     1
 
 static SDLTest_CommonState *state;
 static int num_sprites;
@@ -124,7 +124,8 @@ fillerup(void *unused, Uint8 *stream, int len)
     wave.soundpos += len;
 }
 
-void UserLoggedIn(XUserHandle user)
+void
+UserLoggedIn(XUserHandle user)
 {
     HRESULT hr;
     char gamertag[128];
@@ -139,7 +140,8 @@ void UserLoggedIn(XUserHandle user)
     XUserCloseHandle(user);
 }
 
-void AddUserUICallback(XAsyncBlock *asyncBlock)
+void
+AddUserUICallback(XAsyncBlock *asyncBlock)
 {
     HRESULT hr;
     XUserHandle user = NULL;
@@ -165,7 +167,8 @@ void AddUserUICallback(XAsyncBlock *asyncBlock)
     delete asyncBlock;
 }
 
-void AddUserUI()
+void
+AddUserUI()
 {
     HRESULT hr;
     XAsyncBlock *asyncBlock = new XAsyncBlock;
@@ -182,7 +185,8 @@ void AddUserUI()
     }
 }
 
-void AddUserSilentCallback(XAsyncBlock *asyncBlock)
+void
+AddUserSilentCallback(XAsyncBlock *asyncBlock)
 {
     HRESULT hr;
     XUserHandle user = NULL;
@@ -208,7 +212,8 @@ void AddUserSilentCallback(XAsyncBlock *asyncBlock)
     delete asyncBlock;
 }
 
-void AddUserSilent()
+void
+AddUserSilent()
 {
     HRESULT hr;
     XAsyncBlock *asyncBlock = new XAsyncBlock;
@@ -225,7 +230,8 @@ void AddUserSilent()
     }
 }
 
-int LoadSprite(const char *file)
+int
+LoadSprite(const char *file)
 {
     int i;
 
@@ -246,7 +252,8 @@ int LoadSprite(const char *file)
     return 0;
 }
 
-void DrawSprites(SDL_Renderer *renderer, SDL_Texture *sprite)
+void
+DrawSprites(SDL_Renderer * renderer, SDL_Texture * sprite)
 {
     SDL_Rect viewport, temp;
 
@@ -264,8 +271,8 @@ void DrawSprites(SDL_Renderer *renderer, SDL_Texture *sprite)
             current_color = 255;
             cycle_direction = -cycle_direction;
         }
-        SDL_SetTextureColorMod(sprite, 255, (Uint8)current_color,
-                               (Uint8)current_color);
+        SDL_SetTextureColorMod(sprite, 255, (Uint8) current_color,
+                               (Uint8) current_color);
     }
     if (cycle_alpha) {
         current_alpha += cycle_direction;
@@ -277,7 +284,7 @@ void DrawSprites(SDL_Renderer *renderer, SDL_Texture *sprite)
             current_alpha = 255;
             cycle_direction = -cycle_direction;
         }
-        SDL_SetTextureAlphaMod(sprite, (Uint8)current_alpha);
+        SDL_SetTextureAlphaMod(sprite, (Uint8) current_alpha);
     }
 
     /* Draw a gray background */
@@ -287,16 +294,16 @@ void DrawSprites(SDL_Renderer *renderer, SDL_Texture *sprite)
     /* Test points */
     SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
     SDL_RenderDrawPoint(renderer, 0, 0);
-    SDL_RenderDrawPoint(renderer, viewport.w - 1, 0);
-    SDL_RenderDrawPoint(renderer, 0, viewport.h - 1);
-    SDL_RenderDrawPoint(renderer, viewport.w - 1, viewport.h - 1);
+    SDL_RenderDrawPoint(renderer, viewport.w-1, 0);
+    SDL_RenderDrawPoint(renderer, 0, viewport.h-1);
+    SDL_RenderDrawPoint(renderer, viewport.w-1, viewport.h-1);
 
     /* Test horizontal and vertical lines */
     SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
-    SDL_RenderDrawLine(renderer, 1, 0, viewport.w - 2, 0);
-    SDL_RenderDrawLine(renderer, 1, viewport.h - 1, viewport.w - 2, viewport.h - 1);
-    SDL_RenderDrawLine(renderer, 0, 1, 0, viewport.h - 2);
-    SDL_RenderDrawLine(renderer, viewport.w - 1, 1, viewport.w - 1, viewport.h - 2);
+    SDL_RenderDrawLine(renderer, 1, 0, viewport.w-2, 0);
+    SDL_RenderDrawLine(renderer, 1, viewport.h-1, viewport.w-2, viewport.h-1);
+    SDL_RenderDrawLine(renderer, 0, 1, 0, viewport.h-2);
+    SDL_RenderDrawLine(renderer, viewport.w-1, 1, viewport.w-1, viewport.h-2);
 
     /* Test fill and copy */
     SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
@@ -306,20 +313,20 @@ void DrawSprites(SDL_Renderer *renderer, SDL_Texture *sprite)
     temp.h = sprite_h;
     SDL_RenderFillRect(renderer, &temp);
     SDL_RenderCopy(renderer, sprite, NULL, &temp);
-    temp.x = viewport.w - sprite_w - 1;
+    temp.x = viewport.w-sprite_w-1;
     temp.y = 1;
     temp.w = sprite_w;
     temp.h = sprite_h;
     SDL_RenderFillRect(renderer, &temp);
     SDL_RenderCopy(renderer, sprite, NULL, &temp);
     temp.x = 1;
-    temp.y = viewport.h - sprite_h - 1;
+    temp.y = viewport.h-sprite_h-1;
     temp.w = sprite_w;
     temp.h = sprite_h;
     SDL_RenderFillRect(renderer, &temp);
     SDL_RenderCopy(renderer, sprite, NULL, &temp);
-    temp.x = viewport.w - sprite_w - 1;
-    temp.y = viewport.h - sprite_h - 1;
+    temp.x = viewport.w-sprite_w-1;
+    temp.y = viewport.h-sprite_h-1;
     temp.w = sprite_w;
     temp.h = sprite_h;
     SDL_RenderFillRect(renderer, &temp);
@@ -328,15 +335,16 @@ void DrawSprites(SDL_Renderer *renderer, SDL_Texture *sprite)
     /* Test diagonal lines */
     SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
     SDL_RenderDrawLine(renderer, sprite_w, sprite_h,
-                       viewport.w - sprite_w - 2, viewport.h - sprite_h - 2);
-    SDL_RenderDrawLine(renderer, viewport.w - sprite_w - 2, sprite_h,
-                       sprite_w, viewport.h - sprite_h - 2);
+                       viewport.w-sprite_w-2, viewport.h-sprite_h-2);
+    SDL_RenderDrawLine(renderer, viewport.w-sprite_w-2, sprite_h,
+                       sprite_w, viewport.h-sprite_h-2);
 
     /* Update the screen! */
     SDL_RenderPresent(renderer);
 }
 
-void loop()
+void
+loop()
 {
     int i;
     SDL_Event event;
@@ -363,7 +371,8 @@ void loop()
     }
 }
 
-int main(int argc, char *argv[])
+int
+main(int argc, char *argv[])
 {
     int i;
     const char *icon = "icon.bmp";
@@ -424,8 +433,7 @@ int main(int argc, char *argv[])
                 "[--cyclealpha]",
                 "[num_sprites]",
                 "[icon.bmp]",
-                NULL
-            };
+                NULL };
             SDLTest_CommonLogUsage(state, argv[0], options);
             quit(1);
         }
@@ -437,7 +445,7 @@ int main(int argc, char *argv[])
 
     /* Create the windows, initialize the renderers, and load the textures */
     sprites =
-        (SDL_Texture **)SDL_malloc(state->num_windows * sizeof(*sprites));
+        (SDL_Texture **) SDL_malloc(state->num_windows * sizeof(*sprites));
     if (sprites == NULL) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Out of memory!\n");
         quit(2);

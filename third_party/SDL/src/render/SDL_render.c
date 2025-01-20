@@ -22,12 +22,12 @@
 
 /* The SDL 2D rendering system */
 
-#include "../video/SDL_pixels_c.h"
 #include "SDL_hints.h"
 #include "SDL_render.h"
-#include "SDL_sysrender.h"
 #include "SDL_timer.h"
+#include "SDL_sysrender.h"
 #include "software/SDL_render_sw_c.h"
+#include "../video/SDL_pixels_c.h"
 
 #if defined(__ANDROID__)
 #include "../core/android/SDL_android.h"
@@ -1456,7 +1456,7 @@ SDL_Texture *SDL_CreateTextureFromSurface(SDL_Renderer *renderer, SDL_Surface *s
          * Copy SDL_Surface palette to the texture */
         if (SDL_ISPIXELFORMAT_INDEXED(format)) {
             if (SDL_strcasecmp(renderer->info.name, "directfb") == 0) {
-                extern void DirectFB_SetTexturePalette(SDL_Renderer * renderer, SDL_Texture * texture, SDL_Palette * pal);
+                extern void DirectFB_SetTexturePalette(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Palette *pal);
                 DirectFB_SetTexturePalette(renderer, texture, surface->format->palette);
             }
         }
@@ -4437,9 +4437,9 @@ static SDL_BlendMode SDL_GetLongBlendMode(SDL_BlendMode blendMode)
 }
 
 SDL_BlendMode SDL_ComposeCustomBlendMode(SDL_BlendFactor srcColorFactor, SDL_BlendFactor dstColorFactor,
-                                         SDL_BlendOperation colorOperation,
-                                         SDL_BlendFactor srcAlphaFactor, SDL_BlendFactor dstAlphaFactor,
-                                         SDL_BlendOperation alphaOperation)
+                           SDL_BlendOperation colorOperation,
+                           SDL_BlendFactor srcAlphaFactor, SDL_BlendFactor dstAlphaFactor,
+                           SDL_BlendOperation alphaOperation)
 {
     SDL_BlendMode blendMode = SDL_COMPOSE_BLENDMODE(srcColorFactor, dstColorFactor, colorOperation,
                                                     srcAlphaFactor, dstAlphaFactor, alphaOperation);

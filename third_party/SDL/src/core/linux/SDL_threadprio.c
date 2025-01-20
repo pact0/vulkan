@@ -27,11 +27,11 @@
 #include "SDL_thread.h"
 
 #if !SDL_THREADS_DISABLED
-#include "SDL_system.h"
-#include <pthread.h>
-#include <sys/resource.h>
 #include <sys/time.h>
+#include <sys/resource.h>
+#include <pthread.h>
 #include <unistd.h>
+#include "SDL_system.h"
 
 /* RLIMIT_RTTIME requires kernel >= 2.6.25 and is in glibc >= 2.14 */
 #ifndef RLIMIT_RTTIME

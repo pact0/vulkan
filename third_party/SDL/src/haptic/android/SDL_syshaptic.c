@@ -22,14 +22,15 @@
 
 #ifdef SDL_HAPTIC_ANDROID
 
-#include "../../core/android/SDL_android.h"
-#include "../../joystick/SDL_sysjoystick.h"           /* For the real SDL_Joystick */
-#include "../../joystick/android/SDL_sysjoystick_c.h" /* For joystick hwdata */
+#include "SDL_timer.h"
+#include "SDL_syshaptic_c.h"
 #include "../SDL_syshaptic.h"
 #include "SDL_haptic.h"
+#include "../../core/android/SDL_android.h"
 #include "SDL_joystick.h"
-#include "SDL_syshaptic_c.h"
-#include "SDL_timer.h"
+#include "../../joystick/SDL_sysjoystick.h"     /* For the real SDL_Joystick */
+#include "../../joystick/android/SDL_sysjoystick_c.h"     /* For joystick hwdata */
+
 
 typedef struct SDL_hapticlist_item
 {

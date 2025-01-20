@@ -28,11 +28,11 @@
 #ifndef SDL_gamecontroller_h_
 #define SDL_gamecontroller_h_
 
+#include "SDL_stdinc.h"
 #include "SDL_error.h"
-#include "SDL_joystick.h"
 #include "SDL_rwops.h"
 #include "SDL_sensor.h"
-#include "SDL_stdinc.h"
+#include "SDL_joystick.h"
 
 #include "begin_code.h"
 /* Set up for C function definitions, even when using C++ */
@@ -94,14 +94,14 @@ typedef struct SDL_GameControllerButtonBind
     {
         int button;
         int axis;
-        struct
-        {
+        struct {
             int hat;
             int hat_mask;
         } hat;
     } value;
 
 } SDL_GameControllerButtonBind;
+
 
 /**
  *  To count the number of game controllers in the system for the following:
@@ -162,14 +162,14 @@ typedef struct SDL_GameControllerButtonBind
  * \sa SDL_GameControllerAddMappingsFromFile
  * \sa SDL_GameControllerMappingForGUID
  */
-extern DECLSPEC int SDLCALL SDL_GameControllerAddMappingsFromRW(SDL_RWops *rw, int freerw);
+extern DECLSPEC int SDLCALL SDL_GameControllerAddMappingsFromRW(SDL_RWops * rw, int freerw);
 
 /**
  *  Load a set of mappings from a file, filtered by the current SDL_GetPlatform()
  *
  *  Convenience macro.
  */
-#define SDL_GameControllerAddMappingsFromFile(file) SDL_GameControllerAddMappingsFromRW(SDL_RWFromFile(file, "rb"), 1)
+#define SDL_GameControllerAddMappingsFromFile(file)   SDL_GameControllerAddMappingsFromRW(SDL_RWFromFile(file, "rb"), 1)
 
 /**
  * Add support for controllers that SDL is unaware of or to cause an existing
@@ -198,7 +198,7 @@ extern DECLSPEC int SDLCALL SDL_GameControllerAddMappingsFromRW(SDL_RWops *rw, i
  * \sa SDL_GameControllerMapping
  * \sa SDL_GameControllerMappingForGUID
  */
-extern DECLSPEC int SDLCALL SDL_GameControllerAddMapping(const char *mappingString);
+extern DECLSPEC int SDLCALL SDL_GameControllerAddMapping(const char* mappingString);
 
 /**
  * Get the number of mappings installed.
@@ -217,7 +217,7 @@ extern DECLSPEC int SDLCALL SDL_GameControllerNumMappings(void);
  *
  * \since This function is available since SDL 2.0.6.
  */
-extern DECLSPEC char *SDLCALL SDL_GameControllerMappingForIndex(int mapping_index);
+extern DECLSPEC char * SDLCALL SDL_GameControllerMappingForIndex(int mapping_index);
 
 /**
  * Get the game controller mapping string for a given GUID.
@@ -233,7 +233,7 @@ extern DECLSPEC char *SDLCALL SDL_GameControllerMappingForIndex(int mapping_inde
  * \sa SDL_JoystickGetDeviceGUID
  * \sa SDL_JoystickGetGUID
  */
-extern DECLSPEC char *SDLCALL SDL_GameControllerMappingForGUID(SDL_JoystickGUID guid);
+extern DECLSPEC char * SDLCALL SDL_GameControllerMappingForGUID(SDL_JoystickGUID guid);
 
 /**
  * Get the current mapping of a Game Controller.
@@ -252,7 +252,7 @@ extern DECLSPEC char *SDLCALL SDL_GameControllerMappingForGUID(SDL_JoystickGUID 
  * \sa SDL_GameControllerAddMapping
  * \sa SDL_GameControllerMappingForGUID
  */
-extern DECLSPEC char *SDLCALL SDL_GameControllerMapping(SDL_GameController *gamecontroller);
+extern DECLSPEC char * SDLCALL SDL_GameControllerMapping(SDL_GameController *gamecontroller);
 
 /**
  * Check if the given joystick is supported by the game controller interface.
@@ -521,7 +521,7 @@ extern DECLSPEC Uint16 SDLCALL SDL_GameControllerGetFirmwareVersion(SDL_GameCont
  *
  * \since This function is available since SDL 2.0.14.
  */
-extern DECLSPEC const char *SDLCALL SDL_GameControllerGetSerial(SDL_GameController *gamecontroller);
+extern DECLSPEC const char * SDLCALL SDL_GameControllerGetSerial(SDL_GameController *gamecontroller);
 
 /**
  * Check if a controller has been opened and is currently connected.
@@ -590,6 +590,7 @@ extern DECLSPEC int SDLCALL SDL_GameControllerEventState(int state);
  */
 extern DECLSPEC void SDLCALL SDL_GameControllerUpdate(void);
 
+
 /**
  *  The list of axes available from a controller
  *
@@ -647,7 +648,7 @@ extern DECLSPEC SDL_GameControllerAxis SDLCALL SDL_GameControllerGetAxisFromStri
  *
  * \sa SDL_GameControllerGetAxisFromString
  */
-extern DECLSPEC const char *SDLCALL SDL_GameControllerGetStringForAxis(SDL_GameControllerAxis axis);
+extern DECLSPEC const char* SDLCALL SDL_GameControllerGetStringForAxis(SDL_GameControllerAxis axis);
 
 /**
  * Get the SDL joystick layer binding for a controller axis mapping.
@@ -761,7 +762,7 @@ extern DECLSPEC SDL_GameControllerButton SDLCALL SDL_GameControllerGetButtonFrom
  *
  * \sa SDL_GameControllerGetButtonFromString
  */
-extern DECLSPEC const char *SDLCALL SDL_GameControllerGetStringForButton(SDL_GameControllerButton button);
+extern DECLSPEC const char* SDLCALL SDL_GameControllerGetStringForButton(SDL_GameControllerButton button);
 
 /**
  * Get the SDL joystick layer binding for a controller button mapping.
@@ -1045,7 +1046,7 @@ extern DECLSPEC void SDLCALL SDL_GameControllerClose(SDL_GameController *gamecon
  *
  * \sa SDL_GameControllerGetAppleSFSymbolsNameForAxis
  */
-extern DECLSPEC const char *SDLCALL SDL_GameControllerGetAppleSFSymbolsNameForButton(SDL_GameController *gamecontroller, SDL_GameControllerButton button);
+extern DECLSPEC const char* SDLCALL SDL_GameControllerGetAppleSFSymbolsNameForButton(SDL_GameController *gamecontroller, SDL_GameControllerButton button);
 
 /**
  * Return the sfSymbolsName for a given axis on a game controller on Apple
@@ -1059,7 +1060,8 @@ extern DECLSPEC const char *SDLCALL SDL_GameControllerGetAppleSFSymbolsNameForBu
  *
  * \sa SDL_GameControllerGetAppleSFSymbolsNameForButton
  */
-extern DECLSPEC const char *SDLCALL SDL_GameControllerGetAppleSFSymbolsNameForAxis(SDL_GameController *gamecontroller, SDL_GameControllerAxis axis);
+extern DECLSPEC const char* SDLCALL SDL_GameControllerGetAppleSFSymbolsNameForAxis(SDL_GameController *gamecontroller, SDL_GameControllerAxis axis);
+
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus

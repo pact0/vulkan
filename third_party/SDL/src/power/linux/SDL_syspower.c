@@ -26,13 +26,13 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <dirent.h>
 #include <fcntl.h>
-#include <sys/stat.h>
-#include <sys/types.h>
 
-#include "../SDL_syspower.h"
 #include "SDL_power.h"
+#include "../SDL_syspower.h"
 
 #include "../../core/linux/SDL_dbus.h"
 

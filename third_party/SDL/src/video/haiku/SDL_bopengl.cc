@@ -24,41 +24,40 @@
 
 #include "SDL_bopengl.h"
 
-#include "../../main/haiku/SDL_BApp.h"
-#include "SDL_BWin.h"
+#include <unistd.h>
 #include <KernelKit.h>
 #include <OpenGLKit.h>
-#include <unistd.h>
+#include "SDL_BWin.h"
+#include "../../main/haiku/SDL_BApp.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-static SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window)
-{
+
+static SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window) {
     return (SDL_BWin *)(window->driverdata);
 }
 
-static SDL_INLINE SDL_BLooper *_GetBeLooper()
-{
+static SDL_INLINE SDL_BLooper *_GetBeLooper() {
     return SDL_Looper;
 }
 
 /* Passing a NULL path means load pointers from the application */
 int HAIKU_GL_LoadLibrary(_THIS, const char *path)
 {
-    /* FIXME: Is this working correctly? */
+/* FIXME: Is this working correctly? */
     image_info info;
-    int32 cookie = 0;
+            int32 cookie = 0;
     while (get_next_image_info(0, &cookie, &info) == B_OK) {
         void *location = NULL;
-        if (get_image_symbol(info.id, "glBegin", B_SYMBOL_TYPE_ANY,
-                             &location) == B_OK) {
+        if ( get_image_symbol(info.id, "glBegin", B_SYMBOL_TYPE_ANY,
+                &location) == B_OK) {
 
-            _this->gl_config.dll_handle = (void *)(addr_t)info.id;
+            _this->gl_config.dll_handle = (void *) (addr_t) info.id;
             _this->gl_config.driver_loaded = 1;
             SDL_strlcpy(_this->gl_config.driver_path, "libGL.so",
-                        SDL_arraysize(_this->gl_config.driver_path));
+                    SDL_arraysize(_this->gl_config.driver_path));
         }
     }
     return 0;
@@ -70,13 +69,13 @@ void *HAIKU_GL_GetProcAddress(_THIS, const char *proc)
         void *location = NULL;
         status_t err;
         if ((err =
-                 get_image_symbol((image_id)(addr_t)_this->gl_config.dll_handle,
-                                  proc, B_SYMBOL_TYPE_ANY,
-                                  &location)) == B_OK) {
+            get_image_symbol((image_id) (addr_t) _this->gl_config.dll_handle,
+                              proc, B_SYMBOL_TYPE_ANY,
+                              &location)) == B_OK) {
             return location;
         } else {
-            SDL_SetError("Couldn't find OpenGL symbol");
-            return NULL;
+                SDL_SetError("Couldn't find OpenGL symbol");
+                return NULL;
         }
     } else {
         SDL_SetError("OpenGL library not loaded");
@@ -84,15 +83,14 @@ void *HAIKU_GL_GetProcAddress(_THIS, const char *proc)
     }
 }
 
-int HAIKU_GL_SwapWindow(_THIS, SDL_Window *window)
-{
+
+int HAIKU_GL_SwapWindow(_THIS, SDL_Window * window) {
     _ToBeWin(window)->SwapBuffers();
     return 0;
 }
 
-int HAIKU_GL_MakeCurrent(_THIS, SDL_Window *window, SDL_GLContext context)
-{
-    BGLView *glView = (BGLView *)context;
+int HAIKU_GL_MakeCurrent(_THIS, SDL_Window * window, SDL_GLContext context) {
+    BGLView* glView = (BGLView*)context;
     // printf("HAIKU_GL_MakeCurrent(%llx), win = %llx, thread = %d\n", (uint64)context, (uint64)window, find_thread(NULL));
     if (glView != NULL) {
         if ((glView->Window() == NULL) || (window == NULL) || (_ToBeWin(window)->GetGLView() != glView)) {
@@ -103,8 +101,8 @@ int HAIKU_GL_MakeCurrent(_THIS, SDL_Window *window, SDL_GLContext context)
     return 0;
 }
 
-SDL_GLContext HAIKU_GL_CreateContext(_THIS, SDL_Window *window)
-{
+
+SDL_GLContext HAIKU_GL_CreateContext(_THIS, SDL_Window * window) {
     /* FIXME: Not sure what flags should be included here; may want to have
        most of them */
     SDL_BWin *bwin = _ToBeWin(window);
@@ -129,9 +127,9 @@ SDL_GLContext HAIKU_GL_CreateContext(_THIS, SDL_Window *window)
         gl_flags |= BGL_SINGLE;
     }
     if (_this->gl_config.accum_red_size ||
-        _this->gl_config.accum_green_size ||
-        _this->gl_config.accum_blue_size ||
-        _this->gl_config.accum_alpha_size) {
+            _this->gl_config.accum_green_size ||
+            _this->gl_config.accum_blue_size ||
+            _this->gl_config.accum_alpha_size) {
         gl_flags |= BGL_ACCUM;
     }
 #if __GNUC__ > 3
@@ -144,11 +142,10 @@ SDL_GLContext HAIKU_GL_CreateContext(_THIS, SDL_Window *window)
     return (SDL_GLContext)(bwin->GetGLView());
 }
 
-void HAIKU_GL_DeleteContext(_THIS, SDL_GLContext context)
-{
+void HAIKU_GL_DeleteContext(_THIS, SDL_GLContext context) {
     // printf("HAIKU_GL_DeleteContext(%llx), thread = %d\n", (uint64)context, find_thread(NULL));
-    BGLView *glView = (BGLView *)context;
-    SDL_BWin *bwin = (SDL_BWin *)glView->Window();
+    BGLView* glView = (BGLView*)context;
+    SDL_BWin *bwin = (SDL_BWin*)glView->Window();
     if (bwin == NULL) {
         delete glView;
     } else {
@@ -156,28 +153,27 @@ void HAIKU_GL_DeleteContext(_THIS, SDL_GLContext context)
     }
 }
 
-int HAIKU_GL_SetSwapInterval(_THIS, int interval)
-{
+
+int HAIKU_GL_SetSwapInterval(_THIS, int interval) {
     /* TODO: Implement this, if necessary? */
     return SDL_Unsupported();
 }
 
-int HAIKU_GL_GetSwapInterval(_THIS)
-{
+int HAIKU_GL_GetSwapInterval(_THIS) {
     /* TODO: Implement this, if necessary? */
     return 0;
 }
 
-void HAIKU_GL_UnloadLibrary(_THIS)
-{
+
+void HAIKU_GL_UnloadLibrary(_THIS) {
     /* TODO: Implement this, if necessary? */
 }
+
 
 /* FIXME: This function is meant to clear the OpenGL context when the video
    mode changes (see SDL_bmodes.cc), but it doesn't seem to help, and is not
    currently in use. */
-void HAIKU_GL_RebootContexts(_THIS)
-{
+void HAIKU_GL_RebootContexts(_THIS) {
     SDL_Window *window = _this->windows;
     while (window) {
         SDL_BWin *bwin = _ToBeWin(window);
@@ -190,6 +186,7 @@ void HAIKU_GL_RebootContexts(_THIS)
         window = window->next;
     }
 }
+
 
 #ifdef __cplusplus
 }

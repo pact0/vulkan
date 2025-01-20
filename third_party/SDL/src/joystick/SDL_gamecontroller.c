@@ -23,14 +23,14 @@
 /* This is the game controller API for Simple DirectMedia Layer */
 
 #include "SDL_events.h"
-#include "SDL_gamecontrollerdb.h"
 #include "SDL_hints.h"
-#include "SDL_joystick_c.h"
-#include "SDL_sysjoystick.h"
 #include "SDL_timer.h"
+#include "SDL_sysjoystick.h"
+#include "SDL_joystick_c.h"
+#include "SDL_gamecontrollerdb.h"
 #include "controller_type.h"
-#include "hidapi/SDL_hidapi_nintendo.h"
 #include "usb_ids.h"
+#include "hidapi/SDL_hidapi_nintendo.h"
 
 #if !SDL_EVENTS_DISABLED
 #include "../events/SDL_events_c.h"
@@ -2734,7 +2734,7 @@ Uint16 SDL_GameControllerGetFirmwareVersion(SDL_GameController *gamecontroller)
     return SDL_JoystickGetFirmwareVersion(joystick);
 }
 
-const char *SDL_GameControllerGetSerial(SDL_GameController *gamecontroller)
+const char * SDL_GameControllerGetSerial(SDL_GameController *gamecontroller)
 {
     SDL_Joystick *joystick = SDL_GameControllerGetJoystick(gamecontroller);
 

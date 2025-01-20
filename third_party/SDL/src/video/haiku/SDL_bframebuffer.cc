@@ -24,10 +24,10 @@
 
 #include "SDL_bframebuffer.h"
 
-#include "SDL_BWin.h"
-#include "SDL_bmodes.h"
 #include <AppKit.h>
 #include <InterfaceKit.h>
+#include "SDL_bmodes.h"
+#include "SDL_BWin.h"
 
 #include "../../main/haiku/SDL_BApp.h"
 
@@ -35,20 +35,17 @@
 extern "C" {
 #endif
 
-static SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window)
-{
+static SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window) {
     return (SDL_BWin *)(window->driverdata);
 }
 
-static SDL_INLINE SDL_BLooper *_GetBeLooper()
-{
+static SDL_INLINE SDL_BLooper *_GetBeLooper() {
     return SDL_Looper;
 }
 
-int HAIKU_CreateWindowFramebuffer(_THIS, SDL_Window *window,
-                                  Uint32 *format,
-                                  void **pixels, int *pitch)
-{
+int HAIKU_CreateWindowFramebuffer(_THIS, SDL_Window * window,
+                                       Uint32 * format,
+                                       void ** pixels, int *pitch) {
     SDL_BWin *bwin = _ToBeWin(window);
     BScreen bscreen;
     if (!bscreen.IsValid()) {
@@ -72,13 +69,14 @@ int HAIKU_CreateWindowFramebuffer(_THIS, SDL_Window *window,
         delete bitmap;
     }
     bitmap = new BBitmap(bwin->Bounds(), (color_space)bmode.space,
-                         false, /* Views not accepted */
-                         true); /* Contiguous memory required */
+            false,    /* Views not accepted */
+            true);    /* Contiguous memory required */
 
     if (bitmap->InitCheck() != B_OK) {
         delete bitmap;
         return SDL_SetError("Could not initialize back buffer!");
     }
+
 
     bwin->SetBitmap(bitmap);
 
@@ -92,9 +90,10 @@ int HAIKU_CreateWindowFramebuffer(_THIS, SDL_Window *window,
     return 0;
 }
 
-int HAIKU_UpdateWindowFramebuffer(_THIS, SDL_Window *window,
-                                  const SDL_Rect *rects, int numrects)
-{
+
+
+int HAIKU_UpdateWindowFramebuffer(_THIS, SDL_Window * window,
+                                      const SDL_Rect * rects, int numrects) {
     if (window == NULL) {
         return 0;
     }
@@ -106,8 +105,7 @@ int HAIKU_UpdateWindowFramebuffer(_THIS, SDL_Window *window,
     return 0;
 }
 
-void HAIKU_DestroyWindowFramebuffer(_THIS, SDL_Window *window)
-{
+void HAIKU_DestroyWindowFramebuffer(_THIS, SDL_Window * window) {
     SDL_BWin *bwin = _ToBeWin(window);
 
     bwin->LockBuffer();

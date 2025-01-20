@@ -24,13 +24,13 @@
 
 #if SDL_JOYSTICK_DINPUT
 
-#include "../hidapi/SDL_hidapijoystick_c.h"
-#include "SDL_dinputjoystick_c.h"
 #include "SDL_hints.h"
-#include "SDL_rawinputjoystick_c.h"
 #include "SDL_timer.h"
 #include "SDL_windowsjoystick_c.h"
+#include "SDL_dinputjoystick_c.h"
+#include "SDL_rawinputjoystick_c.h"
 #include "SDL_xinputjoystick_c.h"
+#include "../hidapi/SDL_hidapijoystick_c.h"
 
 #ifndef DIDFT_OPTIONAL
 #define DIDFT_OPTIONAL 0x80000000
@@ -39,7 +39,7 @@
 #define INPUT_QSIZE        128                                                         /* Buffer up to 128 input messages */
 #define JOY_AXIS_THRESHOLD (((SDL_JOYSTICK_AXIS_MAX) - (SDL_JOYSTICK_AXIS_MIN)) / 100) /* 1% motion */
 
-#define CONVERT_MAGNITUDE(x) (((x) * 10000) / 0x7FFF)
+#define CONVERT_MAGNITUDE(x) (((x)*10000) / 0x7FFF)
 
 /* external variables referenced. */
 #ifdef SDL_VIDEO_DRIVER_WINDOWS

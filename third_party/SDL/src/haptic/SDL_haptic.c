@@ -20,9 +20,9 @@
 */
 #include "../SDL_internal.h"
 
-#include "../joystick/SDL_joystick_c.h" /* For SDL_PrivateJoystickValid */
-#include "SDL_haptic_c.h"
 #include "SDL_syshaptic.h"
+#include "SDL_haptic_c.h"
+#include "../joystick/SDL_joystick_c.h" /* For SDL_PrivateJoystickValid */
 
 /* Global for SDL_windowshaptic.c */
 #if (defined(SDL_HAPTIC_DINPUT) && SDL_HAPTIC_DINPUT) || (defined(SDL_HAPTIC_XINPUT) && SDL_HAPTIC_XINPUT)

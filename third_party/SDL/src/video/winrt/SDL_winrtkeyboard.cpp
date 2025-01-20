@@ -31,8 +31,8 @@
 #include "SDL_winrtevents_c.h"
 
 extern "C" {
-#include "../../events/SDL_keyboard_c.h"
 #include "../../events/scancodes_windows.h"
+#include "../../events/SDL_keyboard_c.h"
 }
 
 static SDL_Scancode WinRT_Official_Keycodes[] = {
@@ -416,10 +416,10 @@ void WINTRT_InitialiseInputPaneEvents(_THIS)
     using namespace Windows::UI::ViewManagement;
     InputPane ^ inputPane = InputPane::GetForCurrentView();
     if (inputPane) {
-        inputPane->Showing += ref new Windows::Foundation::TypedEventHandler < Windows::UI::ViewManagement::InputPane ^,
-            Windows::UI::ViewManagement::InputPaneVisibilityEventArgs ^ > (&WINTRT_OnInputPaneShowing);
-        inputPane->Hiding += ref new Windows::Foundation::TypedEventHandler < Windows::UI::ViewManagement::InputPane ^,
-            Windows::UI::ViewManagement::InputPaneVisibilityEventArgs ^ > (&WINTRT_OnInputPaneHiding);
+        inputPane->Showing += ref new Windows::Foundation::TypedEventHandler<Windows::UI::ViewManagement::InputPane ^,
+                                                                             Windows::UI::ViewManagement::InputPaneVisibilityEventArgs ^>(&WINTRT_OnInputPaneShowing);
+        inputPane->Hiding += ref new Windows::Foundation::TypedEventHandler<Windows::UI::ViewManagement::InputPane ^,
+                                                                            Windows::UI::ViewManagement::InputPaneVisibilityEventArgs ^>(&WINTRT_OnInputPaneHiding);
     }
 }
 

@@ -38,28 +38,28 @@
 
 /* CPU feature detection for SDL */
 
-#include "SDL_assert.h"
 #include "SDL_cpuinfo.h"
+#include "SDL_assert.h"
 
 #ifdef HAVE_SYSCONF
 #include <unistd.h>
 #endif
 #ifdef HAVE_SYSCTLBYNAME
-#include <sys/sysctl.h>
 #include <sys/types.h>
+#include <sys/sysctl.h>
 #endif
 #if defined(__MACOSX__) && (defined(__ppc__) || defined(__ppc64__))
-#include <sys/sysctl.h> /* For AltiVec check */
+#include <sys/sysctl.h>         /* For AltiVec check */
 #elif defined(__OpenBSD__) && defined(__powerpc__)
-#include <machine/cpu.h>
-#include <sys/sysctl.h> /* For AltiVec check */
 #include <sys/types.h>
+#include <sys/sysctl.h> /* For AltiVec check */
+#include <machine/cpu.h>
 #elif defined(__FreeBSD__) && defined(__powerpc__)
 #include <machine/cpu.h>
 #include <sys/auxv.h>
 #elif SDL_ALTIVEC_BLITTERS && HAVE_SETJMP
-#include <setjmp.h>
 #include <signal.h>
+#include <setjmp.h>
 #endif
 
 #if defined(__QNXNTO__)
@@ -67,11 +67,11 @@
 #endif
 
 #if (defined(__LINUX__) || defined(__ANDROID__)) && defined(__arm__)
-#include <elf.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <sys/types.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <elf.h>
 
 /*#include <asm/hwcap.h>*/
 #ifndef AT_HWCAP
@@ -686,7 +686,7 @@ int SDL_GetCPUCount(void)
 #ifdef __OS2__
         if (SDL_CPUCount <= 0) {
             DosQuerySysInfo(QSV_NUMPROCESSORS, QSV_NUMPROCESSORS,
-                            &SDL_CPUCount, sizeof(SDL_CPUCount));
+                            &SDL_CPUCount, sizeof(SDL_CPUCount) );
         }
 #endif
 #endif
@@ -1110,7 +1110,7 @@ int SDL_GetSystemRAM(void)
         if (SDL_SystemRAM <= 0) {
             Uint32 sysram = 0;
             DosQuerySysInfo(QSV_TOTPHYSMEM, QSV_TOTPHYSMEM, &sysram, 4);
-            SDL_SystemRAM = (int)(sysram / 0x100000U);
+            SDL_SystemRAM = (int) (sysram / 0x100000U);
         }
 #endif
 #ifdef __RISCOS__

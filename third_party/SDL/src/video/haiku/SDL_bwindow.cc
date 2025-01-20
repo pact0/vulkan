@@ -33,30 +33,28 @@
 extern "C" {
 #endif
 
-static SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window)
-{
+static SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window) {
     return (SDL_BWin *)(window->driverdata);
 }
 
-static SDL_INLINE SDL_BLooper *_GetBeLooper()
-{
+static SDL_INLINE SDL_BLooper *_GetBeLooper() {
     return SDL_Looper;
 }
 
-static int _InitWindow(_THIS, SDL_Window *window)
-{
+static int _InitWindow(_THIS, SDL_Window *window) {
     uint32 flags = 0;
     window_look look = B_TITLED_WINDOW_LOOK;
 
     BRect bounds(
         window->x,
         window->y,
-        window->x + window->w - 1, // BeWindows have an off-by-one px w/h thing
-        window->y + window->h - 1);
-
+        window->x + window->w - 1,    //BeWindows have an off-by-one px w/h thing
+        window->y + window->h - 1
+    );
+    
     if (window->flags & SDL_WINDOW_FULLSCREEN) {
         /* TODO: Add support for this flag */
-        printf(__FILE__ ": %d!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n", __LINE__);
+        printf(__FILE__": %d!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n",__LINE__);
     }
     if (window->flags & SDL_WINDOW_OPENGL) {
         /* TODO: Add support for this flag */
@@ -68,7 +66,7 @@ static int _InitWindow(_THIS, SDL_Window *window)
         look = B_NO_BORDER_WINDOW_LOOK;
     }
 
-    SDL_BWin *bwin = new (std::nothrow) SDL_BWin(bounds, look, flags);
+    SDL_BWin *bwin = new(std::nothrow) SDL_BWin(bounds, look, flags);
     if (bwin == NULL) {
         return -1;
     }
@@ -80,185 +78,170 @@ static int _InitWindow(_THIS, SDL_Window *window)
     return 0;
 }
 
-int HAIKU_CreateWindow(_THIS, SDL_Window *window)
-{
+int HAIKU_CreateWindow(_THIS, SDL_Window *window) {
     if (_InitWindow(_this, window) < 0) {
         return -1;
     }
-
+    
     /* Start window loop */
     _ToBeWin(window)->Show();
     return 0;
 }
 
-int HAIKU_CreateWindowFrom(_THIS, SDL_Window *window, const void *data)
-{
+int HAIKU_CreateWindowFrom(_THIS, SDL_Window * window, const void *data) {
 
-    SDL_BWin *otherBWin = (SDL_BWin *)data;
+    SDL_BWin *otherBWin = (SDL_BWin*)data;
     if (!otherBWin->LockLooper()) {
         return -1;
     }
-
+    
     /* Create the new window and initialize its members */
     window->x = (int)otherBWin->Frame().left;
     window->y = (int)otherBWin->Frame().top;
     window->w = (int)otherBWin->Frame().Width();
     window->h = (int)otherBWin->Frame().Height();
-
+    
     /* Set SDL flags */
     if (!(otherBWin->Flags() & B_NOT_RESIZABLE)) {
         window->flags |= SDL_WINDOW_RESIZABLE;
     }
-
+    
     /* If we are out of memory, return the error code */
     if (_InitWindow(_this, window) < 0) {
         return -1;
     }
-
+    
     /* TODO: Add any other SDL-supported window attributes here */
     _ToBeWin(window)->SetTitle(otherBWin->Title());
-
+    
     /* Start window loop and unlock the other window */
     _ToBeWin(window)->Show();
-
+    
     otherBWin->UnlockLooper();
     return 0;
 }
 
-void HAIKU_SetWindowTitle(_THIS, SDL_Window *window)
-{
+void HAIKU_SetWindowTitle(_THIS, SDL_Window * window) {
     BMessage msg(BWIN_SET_TITLE);
     msg.AddString("window-title", window->title);
     _ToBeWin(window)->PostMessage(&msg);
 }
 
-void HAIKU_SetWindowIcon(_THIS, SDL_Window *window, SDL_Surface *icon)
-{
+void HAIKU_SetWindowIcon(_THIS, SDL_Window * window, SDL_Surface * icon) {
     /* FIXME: Icons not supported by Haiku */
 }
 
-void HAIKU_SetWindowPosition(_THIS, SDL_Window *window)
-{
+void HAIKU_SetWindowPosition(_THIS, SDL_Window * window) {
     BMessage msg(BWIN_MOVE_WINDOW);
     msg.AddInt32("window-x", window->x);
     msg.AddInt32("window-y", window->y);
     _ToBeWin(window)->PostMessage(&msg);
 }
 
-void HAIKU_SetWindowSize(_THIS, SDL_Window *window)
-{
+void HAIKU_SetWindowSize(_THIS, SDL_Window * window) {
     BMessage msg(BWIN_RESIZE_WINDOW);
     msg.AddInt32("window-w", window->w - 1);
     msg.AddInt32("window-h", window->h - 1);
     _ToBeWin(window)->PostMessage(&msg);
 }
 
-void HAIKU_SetWindowBordered(_THIS, SDL_Window *window, SDL_bool bordered)
-{
+void HAIKU_SetWindowBordered(_THIS, SDL_Window * window, SDL_bool bordered) {
     BMessage msg(BWIN_SET_BORDERED);
     msg.AddBool("window-border", bordered != SDL_FALSE);
     _ToBeWin(window)->PostMessage(&msg);
 }
 
-void HAIKU_SetWindowResizable(_THIS, SDL_Window *window, SDL_bool resizable)
-{
+void HAIKU_SetWindowResizable(_THIS, SDL_Window * window, SDL_bool resizable) {
     BMessage msg(BWIN_SET_RESIZABLE);
     msg.AddBool("window-resizable", resizable != SDL_FALSE);
     _ToBeWin(window)->PostMessage(&msg);
 }
 
-void HAIKU_ShowWindow(_THIS, SDL_Window *window)
-{
+void HAIKU_ShowWindow(_THIS, SDL_Window * window) {
     BMessage msg(BWIN_SHOW_WINDOW);
     _ToBeWin(window)->PostMessage(&msg);
 }
 
-void HAIKU_HideWindow(_THIS, SDL_Window *window)
-{
+void HAIKU_HideWindow(_THIS, SDL_Window * window) {
     BMessage msg(BWIN_HIDE_WINDOW);
     _ToBeWin(window)->PostMessage(&msg);
 }
 
-void HAIKU_RaiseWindow(_THIS, SDL_Window *window)
-{
-    BMessage msg(BWIN_SHOW_WINDOW); /* Activate this window and move to front */
+void HAIKU_RaiseWindow(_THIS, SDL_Window * window) {
+    BMessage msg(BWIN_SHOW_WINDOW);    /* Activate this window and move to front */
     _ToBeWin(window)->PostMessage(&msg);
 }
 
-void HAIKU_MaximizeWindow(_THIS, SDL_Window *window)
-{
+void HAIKU_MaximizeWindow(_THIS, SDL_Window * window) {
     BMessage msg(BWIN_MAXIMIZE_WINDOW);
     _ToBeWin(window)->PostMessage(&msg);
 }
 
-void HAIKU_MinimizeWindow(_THIS, SDL_Window *window)
-{
+void HAIKU_MinimizeWindow(_THIS, SDL_Window * window) {
     BMessage msg(BWIN_MINIMIZE_WINDOW);
     _ToBeWin(window)->PostMessage(&msg);
 }
 
-void HAIKU_RestoreWindow(_THIS, SDL_Window *window)
-{
+void HAIKU_RestoreWindow(_THIS, SDL_Window * window) {
     BMessage msg(BWIN_RESTORE_WINDOW);
     _ToBeWin(window)->PostMessage(&msg);
 }
 
-void HAIKU_SetWindowFullscreen(_THIS, SDL_Window *window,
-                               SDL_VideoDisplay *display, SDL_bool fullscreen)
-{
+void HAIKU_SetWindowFullscreen(_THIS, SDL_Window * window,
+        SDL_VideoDisplay * display, SDL_bool fullscreen) {
     /* Haiku tracks all video display information */
     BMessage msg(BWIN_FULLSCREEN);
     msg.AddBool("fullscreen", fullscreen);
     _ToBeWin(window)->PostMessage(&msg);
+    
 }
 
-int HAIKU_SetWindowGammaRamp(_THIS, SDL_Window *window, const Uint16 *ramp)
-{
+int HAIKU_SetWindowGammaRamp(_THIS, SDL_Window * window, const Uint16 * ramp) {
     /* FIXME: Not Haiku supported */
     return -1;
 }
 
-int HAIKU_GetWindowGammaRamp(_THIS, SDL_Window *window, Uint16 *ramp)
-{
+int HAIKU_GetWindowGammaRamp(_THIS, SDL_Window * window, Uint16 * ramp) {
     /* FIXME: Not Haiku supported */
     return -1;
 }
 
-void HAIKU_SetWindowMinimumSize(_THIS, SDL_Window *window)
-{
+
+void HAIKU_SetWindowMinimumSize(_THIS, SDL_Window * window) {
     BMessage msg(BWIN_MINIMUM_SIZE_WINDOW);
-    msg.AddInt32("window-w", window->w - 1);
-    msg.AddInt32("window-h", window->h - 1);
+    msg.AddInt32("window-w", window->w -1);
+    msg.AddInt32("window-h", window->h -1);
     _ToBeWin(window)->PostMessage(&msg);
 }
 
-void HAIKU_SetWindowMouseGrab(_THIS, SDL_Window *window, SDL_bool grabbed)
-{
+void HAIKU_SetWindowMouseGrab(_THIS, SDL_Window * window, SDL_bool grabbed) {
     /* TODO: Implement this! */
 }
 
-void HAIKU_DestroyWindow(_THIS, SDL_Window *window)
-{
-    _ToBeWin(window)->LockLooper(); /* This MUST be locked */
+void HAIKU_DestroyWindow(_THIS, SDL_Window * window) {
+    _ToBeWin(window)->LockLooper();    /* This MUST be locked */
     _GetBeLooper()->ClearID(_ToBeWin(window));
     _ToBeWin(window)->Quit();
     window->driverdata = NULL;
 }
 
-SDL_bool HAIKU_GetWindowWMInfo(_THIS, SDL_Window *window,
-                               struct SDL_SysWMinfo *info)
-{
+SDL_bool HAIKU_GetWindowWMInfo(_THIS, SDL_Window * window,
+                                    struct SDL_SysWMinfo *info) {
     /* FIXME: What is the point of this? What information should be included? */
-    if (info->version.major == SDL_MAJOR_VERSION) {
-        info->subsystem = SDL_SYSWM_HAIKU;
-        return SDL_TRUE;
-    } else {
-        SDL_SetError("Application not compiled with SDL %d",
-                     SDL_MAJOR_VERSION);
-        return SDL_FALSE;
-    }
+	if (info->version.major == SDL_MAJOR_VERSION) {
+	    info->subsystem = SDL_SYSWM_HAIKU;
+	    return SDL_TRUE;
+	} else {
+	    SDL_SetError("Application not compiled with SDL %d",
+	                 SDL_MAJOR_VERSION);
+	    return SDL_FALSE;
+	}
 }
 
+
+
+
+ 
 #ifdef __cplusplus
 }
 #endif

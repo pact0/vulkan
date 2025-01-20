@@ -24,11 +24,11 @@
 
 /* An implementation of mutexes using semaphores */
 
-#include "SDL_systhread_c.h"
 #include "SDL_thread.h"
+#include "SDL_systhread_c.h"
 
-#include <pspkerror.h>
 #include <pspthreadman.h>
+#include <pspkerror.h>
 
 #define SCE_KERNEL_MUTEX_ATTR_RECURSIVE 0x0200U
 

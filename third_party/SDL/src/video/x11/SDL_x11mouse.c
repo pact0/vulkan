@@ -22,11 +22,11 @@
 
 #if SDL_VIDEO_DRIVER_X11
 
-#include "../../events/SDL_mouse_c.h"
-#include "SDL_x11mouse.h"
-#include "SDL_x11video.h"
-#include "SDL_x11xinput2.h"
 #include <X11/cursorfont.h>
+#include "SDL_x11video.h"
+#include "SDL_x11mouse.h"
+#include "SDL_x11xinput2.h"
+#include "../../events/SDL_mouse_c.h"
 
 /* FIXME: Find a better place to put this... */
 static Cursor x11_empty_cursor = None;

@@ -19,6 +19,7 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
+
 /* SDL surface based renderer implementation */
 
 /* vi: set ts=4 sw=4 expandtab: */

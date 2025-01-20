@@ -25,15 +25,15 @@
 
 #ifdef SDL_JOYSTICK_HIDAPI
 
+#include "SDL_events.h"
+#include "SDL_timer.h"
+#include "SDL_joystick.h"
+#include "SDL_gamecontroller.h"
 #include "../../SDL_hints_c.h"
 #include "../SDL_sysjoystick.h"
-#include "SDL_events.h"
-#include "SDL_gamecontroller.h"
-#include "SDL_hidapi_nintendo.h"
-#include "SDL_hidapi_rumble.h"
 #include "SDL_hidapijoystick_c.h"
-#include "SDL_joystick.h"
-#include "SDL_timer.h"
+#include "SDL_hidapi_rumble.h"
+#include "SDL_hidapi_nintendo.h"
 
 #ifdef SDL_JOYSTICK_HIDAPI_SWITCH
 
@@ -998,7 +998,7 @@ static ESwitchDeviceInfoControllerType ReadJoyConControllerType(SDL_HIDAPI_Devic
         ctx->m_bSyncWrite = SDL_TRUE;
         ctx->m_nMaxWriteAttempts = GetMaxWriteAttempts(device);
 
-        for (;;) {
+        for ( ; ; ) {
             ++attempts;
             device->is_bluetooth = SDL_FALSE;
             if (WriteProprietary(ctx, k_eSwitchProprietaryCommandIDs_Status, NULL, 0, SDL_TRUE)) {

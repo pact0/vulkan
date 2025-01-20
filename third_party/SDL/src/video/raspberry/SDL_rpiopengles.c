@@ -24,8 +24,8 @@
 
 #if SDL_VIDEO_DRIVER_RPI && SDL_VIDEO_OPENGL_EGL
 
-#include "SDL_rpiopengles.h"
 #include "SDL_rpivideo.h"
+#include "SDL_rpiopengles.h"
 
 /* EGL implementation of SDL OpenGL support */
 

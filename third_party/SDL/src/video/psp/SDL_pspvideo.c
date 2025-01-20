@@ -24,18 +24,19 @@
 #if SDL_VIDEO_DRIVER_PSP
 
 /* SDL internals */
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
 #include "../SDL_sysvideo.h"
-#include "SDL_events.h"
-#include "SDL_loadso.h"
-#include "SDL_syswm.h"
 #include "SDL_version.h"
+#include "SDL_syswm.h"
+#include "SDL_loadso.h"
+#include "SDL_events.h"
+#include "../../events/SDL_mouse_c.h"
+#include "../../events/SDL_keyboard_c.h"
+
 
 /* PSP declarations */
+#include "SDL_pspvideo.h"
 #include "SDL_pspevents_c.h"
 #include "SDL_pspgl_c.h"
-#include "SDL_pspvideo.h"
 
 /* unused
 static SDL_bool PSP_initialized = SDL_FALSE;
@@ -271,6 +272,7 @@ SDL_bool PSP_GetWindowWMInfo(_THIS, SDL_Window * window, struct SDL_SysWMinfo *i
     return SDL_FALSE;
 }
 #endif
+
 
 /* TO Write Me */
 SDL_bool PSP_HasScreenKeyboardSupport(_THIS)

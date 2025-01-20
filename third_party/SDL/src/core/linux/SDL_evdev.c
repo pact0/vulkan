@@ -32,19 +32,19 @@
 #include "SDL_evdev.h"
 #include "SDL_evdev_kbd.h"
 
-#include <fcntl.h>
-#include <linux/input.h>
-#include <sys/ioctl.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <linux/input.h>
 
-#include "../../core/linux/SDL_evdev_capabilities.h"
-#include "../../core/linux/SDL_udev.h"
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_scancode_tables_c.h"
 #include "SDL.h"
 #include "SDL_endian.h"
 #include "SDL_scancode.h"
+#include "../../events/SDL_events_c.h"
+#include "../../events/SDL_scancode_tables_c.h"
+#include "../../core/linux/SDL_evdev_capabilities.h"
+#include "../../core/linux/SDL_udev.h"
 
 /* These are not defined in older Linux kernel headers */
 #ifndef SYN_DROPPED

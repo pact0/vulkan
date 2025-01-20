@@ -23,9 +23,9 @@
 
 #if SDL_VIDEO_DRIVER_KMSDRM
 
-#include "SDL_kmsdrmdyn.h"
-#include "SDL_kmsdrmmouse.h"
 #include "SDL_kmsdrmvideo.h"
+#include "SDL_kmsdrmmouse.h"
+#include "SDL_kmsdrmdyn.h"
 
 #include "../../events/SDL_mouse_c.h"
 #include "../../events/default_cursor.h"

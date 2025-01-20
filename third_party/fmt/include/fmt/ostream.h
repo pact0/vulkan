@@ -28,7 +28,7 @@ namespace detail {
 namespace {
 struct file_access_tag {};
 }  // namespace
-template <typename Tag, typename BufType, FILE* BufType::* FileMemberPtr>
+template <typename Tag, typename BufType, FILE* BufType::*FileMemberPtr>
 class file_access {
   friend auto get_file(BufType& obj) -> FILE* { return obj.*FileMemberPtr; }
 };
@@ -98,9 +98,7 @@ void format_value(buffer<Char>& buf, const T& value,
   output.exceptions(std::ios_base::failbit | std::ios_base::badbit);
 }
 
-template <typename T> struct streamed_view {
-  const T& value;
-};
+template <typename T> struct streamed_view { const T& value; };
 
 }  // namespace detail
 

@@ -22,11 +22,11 @@
 
 #if SDL_AUDIO_DRIVER_AAUDIO
 
-#include "../../core/android/SDL_android.h"
-#include "../SDL_audio_c.h"
-#include "SDL_aaudio.h"
 #include "SDL_audio.h"
 #include "SDL_loadso.h"
+#include "../SDL_audio_c.h"
+#include "../../core/android/SDL_android.h"
+#include "SDL_aaudio.h"
 
 /* Debug */
 #if 0
@@ -39,7 +39,7 @@ typedef struct AAUDIO_Data
 {
     AAudioStreamBuilder *builder;
     void *handle;
-#define SDL_PROC(ret, func, params) ret(*func) params;
+#define SDL_PROC(ret, func, params) ret (*func) params;
 #include "SDL_aaudiofuncs.h"
 #undef SDL_PROC
 } AAUDIO_Data;
@@ -101,7 +101,7 @@ static int aaudio_OpenDevice(_THIS, const char *devname)
 
     ctx.AAudioStreamBuilder_setSampleRate(ctx.builder, this->spec.freq);
     ctx.AAudioStreamBuilder_setChannelCount(ctx.builder, this->spec.channels);
-    if (devname != NULL) {
+    if(devname != NULL) {
         int aaudio_device_id = SDL_atoi(devname);
         LOGI("Opening device id %d", aaudio_device_id);
         ctx.AAudioStreamBuilder_setDeviceId(ctx.builder, aaudio_device_id);

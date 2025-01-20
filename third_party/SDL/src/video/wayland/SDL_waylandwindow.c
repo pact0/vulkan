@@ -23,24 +23,24 @@
 
 #if SDL_VIDEO_DRIVER_WAYLAND
 
-#include "../../SDL_hints_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_windowevents_c.h"
-#include "../SDL_egl_c.h"
 #include "../SDL_sysvideo.h"
-#include "SDL_events.h"
-#include "SDL_hints.h"
+#include "../../events/SDL_windowevents_c.h"
+#include "../../events/SDL_mouse_c.h"
+#include "../SDL_egl_c.h"
 #include "SDL_waylandevents_c.h"
-#include "SDL_waylandtouch.h"
-#include "SDL_waylandvideo.h"
 #include "SDL_waylandwindow.h"
+#include "SDL_waylandvideo.h"
+#include "SDL_waylandtouch.h"
+#include "SDL_hints.h"
+#include "../../SDL_hints_c.h"
+#include "SDL_events.h"
 
-#include "fractional-scale-v1-client-protocol.h"
-#include "idle-inhibit-unstable-v1-client-protocol.h"
-#include "viewporter-client-protocol.h"
-#include "xdg-activation-v1-client-protocol.h"
-#include "xdg-decoration-unstable-v1-client-protocol.h"
 #include "xdg-shell-client-protocol.h"
+#include "xdg-decoration-unstable-v1-client-protocol.h"
+#include "idle-inhibit-unstable-v1-client-protocol.h"
+#include "xdg-activation-v1-client-protocol.h"
+#include "viewporter-client-protocol.h"
+#include "fractional-scale-v1-client-protocol.h"
 
 #ifdef HAVE_LIBDECOR_H
 #include <libdecor.h>
@@ -1165,7 +1165,7 @@ static const struct wl_surface_listener surface_listener = {
     handle_surface_leave
 };
 
-static void Wayland_FillEmptyShellInfo(SDL_SysWMinfo *info, const Uint32 version)
+static void Wayland_FillEmptyShellInfo(SDL_SysWMinfo * info, const Uint32 version)
 {
     info->info.wl.xdg_surface = NULL;
     if (version >= SDL_VERSIONNUM(2, 0, 17)) {
@@ -1177,10 +1177,10 @@ static void Wayland_FillEmptyShellInfo(SDL_SysWMinfo *info, const Uint32 version
     }
 }
 
-SDL_bool Wayland_GetWindowWMInfo(_THIS, SDL_Window *window, SDL_SysWMinfo *info)
+SDL_bool Wayland_GetWindowWMInfo(_THIS, SDL_Window * window, SDL_SysWMinfo * info)
 {
-    SDL_VideoData *viddata = (SDL_VideoData *)_this->driverdata;
-    SDL_WindowData *data = (SDL_WindowData *)window->driverdata;
+    SDL_VideoData *viddata = (SDL_VideoData *) _this->driverdata;
+    SDL_WindowData *data = (SDL_WindowData *) window->driverdata;
     const Uint32 version = SDL_VERSIONNUM((Uint32)info->version.major,
                                           (Uint32)info->version.minor,
                                           (Uint32)info->version.patch);
@@ -1224,7 +1224,7 @@ SDL_bool Wayland_GetWindowWMInfo(_THIS, SDL_Window *window, SDL_SysWMinfo *info)
             }
         } else
 #endif
-            if (viddata->shell.xdg && data->shell_surface.xdg.surface != NULL) {
+        if (viddata->shell.xdg && data->shell_surface.xdg.surface != NULL) {
             info->info.wl.xdg_surface = data->shell_surface.xdg.surface;
             if (version >= SDL_VERSIONNUM(2, 0, 17)) {
                 SDL_bool popup = data->shell_surface_type == WAYLAND_SURFACE_XDG_POPUP;

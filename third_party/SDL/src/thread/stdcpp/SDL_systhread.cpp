@@ -23,14 +23,14 @@
 /* Thread management routines for SDL */
 
 extern "C" {
-#include "../SDL_systhread.h"
-#include "../SDL_thread_c.h"
 #include "SDL_thread.h"
+#include "../SDL_thread_c.h"
+#include "../SDL_systhread.h"
 }
 
 #include <mutex>
-#include <system_error>
 #include <thread>
+#include <system_error>
 
 #ifdef __WINRT__
 #include <Windows.h>

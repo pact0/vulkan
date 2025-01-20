@@ -19,18 +19,18 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "geniconv.h"
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
+#include "geniconv.h"
 
 int main(void)
 {
-    char acBuf[128];
-    char *inbuf = "Тест - проверка"; /* KOI8-R string */
-    size_t inbytesleft = strlen(inbuf);
-    char *outbuf = acBuf;
-    size_t outbytesleft = sizeof(acBuf);
+    char    acBuf[128];
+    char   *inbuf = "Тест - проверка"; /* KOI8-R string */
+    size_t  inbytesleft = strlen(inbuf);
+    char   *outbuf = acBuf;
+    size_t  outbytesleft = sizeof(acBuf);
     iconv_t ic;
 
     /* KOI8 -> system cp */

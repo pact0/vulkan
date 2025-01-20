@@ -9,8 +9,8 @@
   including commercial applications, and to alter it and redistribute it
   freely.
 */
-#include "SDL.h"
 #include <stdio.h>
+#include "SDL.h"
 
 /* !!! FIXME: move this to the test framework */
 

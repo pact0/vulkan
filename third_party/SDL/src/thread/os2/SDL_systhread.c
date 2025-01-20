@@ -24,11 +24,12 @@
 
 /* Thread management routines for SDL */
 
-#include "../../core/os2/SDL_os2.h"
+#include "SDL_thread.h"
 #include "../SDL_systhread.h"
 #include "../SDL_thread_c.h"
+#include "../SDL_systhread.h"
 #include "SDL_systls_c.h"
-#include "SDL_thread.h"
+#include "../../core/os2/SDL_os2.h"
 #ifndef SDL_PASSED_BEGINTHREAD_ENDTHREAD
 #error This source only adjusted for SDL_PASSED_BEGINTHREAD_ENDTHREAD
 #endif
@@ -38,10 +39,11 @@
 #include <os2.h>
 #include <process.h>
 
+
 static void RunThread(void *data)
 {
-    SDL_Thread *thread = (SDL_Thread *)data;
-    pfnSDL_CurrentEndThread pfnEndThread = (pfnSDL_CurrentEndThread)thread->endfunc;
+    SDL_Thread *thread = (SDL_Thread *) data;
+    pfnSDL_CurrentEndThread pfnEndThread = (pfnSDL_CurrentEndThread) thread->endfunc;
 
     if (ppSDLTLSData != NULL)
         *ppSDLTLSData = NULL;
@@ -52,9 +54,9 @@ static void RunThread(void *data)
         pfnEndThread();
 }
 
-int SDL_SYS_CreateThread(SDL_Thread *thread,
-                         pfnSDL_CurrentBeginThread pfnBeginThread,
-                         pfnSDL_CurrentEndThread pfnEndThread)
+int SDL_SYS_CreateThread(SDL_Thread * thread,
+                     pfnSDL_CurrentBeginThread pfnBeginThread,
+                     pfnSDL_CurrentEndThread pfnEndThread)
 {
     if (thread->stacksize == 0)
         thread->stacksize = 65536;
@@ -64,11 +66,11 @@ int SDL_SYS_CreateThread(SDL_Thread *thread,
         thread->endfunc = pfnEndThread;
         /* Start the thread using the runtime library of calling app! */
         thread->handle = (SYS_ThreadHandle)
-            pfnBeginThread(RunThread, NULL, thread->stacksize, thread);
+                            pfnBeginThread(RunThread, NULL, thread->stacksize, thread);
     } else {
         thread->endfunc = _endthread;
         thread->handle = (SYS_ThreadHandle)
-            _beginthread(RunThread, NULL, thread->stacksize, thread);
+                            _beginthread(RunThread, NULL, thread->stacksize, thread);
     }
 
     if (thread->handle == -1)
@@ -84,8 +86,8 @@ void SDL_SYS_SetupThread(const char *name)
 
 SDL_threadID SDL_ThreadID(void)
 {
-    PTIB tib;
-    PPIB pib;
+    PTIB  tib;
+    PPIB  pib;
 
     DosGetInfoBlocks(&tib, &pib);
     return tib->tib_ptib2->tib2_ultid;
@@ -96,8 +98,9 @@ int SDL_SYS_SetThreadPriority(SDL_ThreadPriority priority)
     ULONG ulRC;
 
     ulRC = DosSetPriority(PRTYS_THREAD,
-                          (priority < SDL_THREAD_PRIORITY_NORMAL) ? PRTYC_IDLETIME : (priority > SDL_THREAD_PRIORITY_NORMAL) ? PRTYC_TIMECRITICAL
-                                                                                                                             : PRTYC_REGULAR,
+                          (priority < SDL_THREAD_PRIORITY_NORMAL)? PRTYC_IDLETIME :
+                           (priority > SDL_THREAD_PRIORITY_NORMAL)? PRTYC_TIMECRITICAL :
+                            PRTYC_REGULAR,
                           0, 0);
     if (ulRC != NO_ERROR)
         return SDL_SetError("DosSetPriority() failed, rc = %u", ulRC);
@@ -105,7 +108,7 @@ int SDL_SYS_SetThreadPriority(SDL_ThreadPriority priority)
     return 0;
 }
 
-void SDL_SYS_WaitThread(SDL_Thread *thread)
+void SDL_SYS_WaitThread(SDL_Thread * thread)
 {
     ULONG ulRC = DosWaitThread((PTID)&thread->handle, DCWW_WAIT);
 
@@ -114,7 +117,7 @@ void SDL_SYS_WaitThread(SDL_Thread *thread)
     }
 }
 
-void SDL_SYS_DetachThread(SDL_Thread *thread)
+void SDL_SYS_DetachThread(SDL_Thread * thread)
 {
     /* nothing. */
 }

@@ -22,8 +22,8 @@
 
 /* Standard C++11 includes */
 #include <functional>
-#include <sstream>
 #include <string>
+#include <sstream>
 using namespace std;
 
 /* Windows includes */
@@ -45,18 +45,18 @@ using namespace Windows::Phone::UI::Input;
 
 /* SDL includes */
 extern "C" {
+#include "SDL_events.h"
+#include "SDL_hints.h"
+#include "SDL_main.h"
+#include "SDL_stdinc.h"
+#include "SDL_render.h"
+#include "../../video/SDL_sysvideo.h"
 #include "../../events/SDL_events_c.h"
 #include "../../events/SDL_keyboard_c.h"
 #include "../../events/SDL_mouse_c.h"
 #include "../../events/SDL_windowevents_c.h"
 #include "../../render/SDL_sysrender.h"
-#include "../../video/SDL_sysvideo.h"
 #include "../windows/SDL_windows.h"
-#include "SDL_events.h"
-#include "SDL_hints.h"
-#include "SDL_main.h"
-#include "SDL_render.h"
-#include "SDL_stdinc.h"
 }
 
 #include "../../video/winrt/SDL_winrtevents_c.h"
@@ -173,8 +173,7 @@ SDL_WinRTApp::SDL_WinRTApp() : m_windowClosed(false),
 void SDL_WinRTApp::Initialize(CoreApplicationView ^ applicationView)
 {
     applicationView->Activated +=
-        ref new TypedEventHandler < CoreApplicationView ^
-        , IActivatedEventArgs ^ > (this, &SDL_WinRTApp::OnAppActivated);
+        ref new TypedEventHandler<CoreApplicationView ^, IActivatedEventArgs ^>(this, &SDL_WinRTApp::OnAppActivated);
 
     CoreApplication::Suspending +=
         ref new EventHandler<SuspendingEventArgs ^>(this, &SDL_WinRTApp::OnSuspending);
@@ -263,67 +262,53 @@ void SDL_WinRTApp::SetWindow(CoreWindow ^ window)
 #endif
 
     window->SizeChanged +=
-        ref new TypedEventHandler < CoreWindow ^
-        , WindowSizeChangedEventArgs ^ > (this, &SDL_WinRTApp::OnWindowSizeChanged);
+        ref new TypedEventHandler<CoreWindow ^, WindowSizeChangedEventArgs ^>(this, &SDL_WinRTApp::OnWindowSizeChanged);
 
     window->VisibilityChanged +=
-        ref new TypedEventHandler < CoreWindow ^
-        , VisibilityChangedEventArgs ^ > (this, &SDL_WinRTApp::OnVisibilityChanged);
+        ref new TypedEventHandler<CoreWindow ^, VisibilityChangedEventArgs ^>(this, &SDL_WinRTApp::OnVisibilityChanged);
 
     window->Activated +=
-        ref new TypedEventHandler < CoreWindow ^
-        , WindowActivatedEventArgs ^ > (this, &SDL_WinRTApp::OnWindowActivated);
+        ref new TypedEventHandler<CoreWindow ^, WindowActivatedEventArgs ^>(this, &SDL_WinRTApp::OnWindowActivated);
 
     window->Closed +=
-        ref new TypedEventHandler < CoreWindow ^
-        , CoreWindowEventArgs ^ > (this, &SDL_WinRTApp::OnWindowClosed);
+        ref new TypedEventHandler<CoreWindow ^, CoreWindowEventArgs ^>(this, &SDL_WinRTApp::OnWindowClosed);
 
 #if WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP
     window->PointerCursor = ref new CoreCursor(CoreCursorType::Arrow, 0);
 #endif
 
     window->PointerPressed +=
-        ref new TypedEventHandler < CoreWindow ^
-        , PointerEventArgs ^ > (this, &SDL_WinRTApp::OnPointerPressed);
+        ref new TypedEventHandler<CoreWindow ^, PointerEventArgs ^>(this, &SDL_WinRTApp::OnPointerPressed);
 
     window->PointerMoved +=
-        ref new TypedEventHandler < CoreWindow ^
-        , PointerEventArgs ^ > (this, &SDL_WinRTApp::OnPointerMoved);
+        ref new TypedEventHandler<CoreWindow ^, PointerEventArgs ^>(this, &SDL_WinRTApp::OnPointerMoved);
 
     window->PointerReleased +=
-        ref new TypedEventHandler < CoreWindow ^
-        , PointerEventArgs ^ > (this, &SDL_WinRTApp::OnPointerReleased);
+        ref new TypedEventHandler<CoreWindow ^, PointerEventArgs ^>(this, &SDL_WinRTApp::OnPointerReleased);
 
     window->PointerEntered +=
-        ref new TypedEventHandler < CoreWindow ^
-        , PointerEventArgs ^ > (this, &SDL_WinRTApp::OnPointerEntered);
+        ref new TypedEventHandler<CoreWindow ^, PointerEventArgs ^>(this, &SDL_WinRTApp::OnPointerEntered);
 
     window->PointerExited +=
-        ref new TypedEventHandler < CoreWindow ^
-        , PointerEventArgs ^ > (this, &SDL_WinRTApp::OnPointerExited);
+        ref new TypedEventHandler<CoreWindow ^, PointerEventArgs ^>(this, &SDL_WinRTApp::OnPointerExited);
 
     window->PointerWheelChanged +=
-        ref new TypedEventHandler < CoreWindow ^
-        , PointerEventArgs ^ > (this, &SDL_WinRTApp::OnPointerWheelChanged);
+        ref new TypedEventHandler<CoreWindow ^, PointerEventArgs ^>(this, &SDL_WinRTApp::OnPointerWheelChanged);
 
 #if WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP
     // Retrieves relative-only mouse movements:
     Windows::Devices::Input::MouseDevice::GetForCurrentView()->MouseMoved +=
-        ref new TypedEventHandler < MouseDevice ^
-        , MouseEventArgs ^ > (this, &SDL_WinRTApp::OnMouseMoved);
+        ref new TypedEventHandler<MouseDevice ^, MouseEventArgs ^>(this, &SDL_WinRTApp::OnMouseMoved);
 #endif
 
     window->KeyDown +=
-        ref new TypedEventHandler < CoreWindow ^
-        , KeyEventArgs ^ > (this, &SDL_WinRTApp::OnKeyDown);
+        ref new TypedEventHandler<CoreWindow ^, KeyEventArgs ^>(this, &SDL_WinRTApp::OnKeyDown);
 
     window->KeyUp +=
-        ref new TypedEventHandler < CoreWindow ^
-        , KeyEventArgs ^ > (this, &SDL_WinRTApp::OnKeyUp);
+        ref new TypedEventHandler<CoreWindow ^, KeyEventArgs ^>(this, &SDL_WinRTApp::OnKeyUp);
 
     window->CharacterReceived +=
-        ref new TypedEventHandler < CoreWindow ^
-        , CharacterReceivedEventArgs ^ > (this, &SDL_WinRTApp::OnCharacterReceived);
+        ref new TypedEventHandler<CoreWindow ^, CharacterReceivedEventArgs ^>(this, &SDL_WinRTApp::OnCharacterReceived);
 
 #if NTDDI_VERSION >= NTDDI_WIN10
     Windows::UI::Core::SystemNavigationManager::GetForCurrentView()->BackRequested +=
@@ -335,8 +320,7 @@ void SDL_WinRTApp::SetWindow(CoreWindow ^ window)
 
 #if NTDDI_VERSION > NTDDI_WIN8
     DisplayInformation::GetForCurrentView()->OrientationChanged +=
-        ref new TypedEventHandler < Windows::Graphics::Display::DisplayInformation ^
-        , Object ^ > (this, &SDL_WinRTApp::OnOrientationChanged);
+        ref new TypedEventHandler<Windows::Graphics::Display::DisplayInformation ^, Object ^>(this, &SDL_WinRTApp::OnOrientationChanged);
 #else
     DisplayProperties::OrientationChanged +=
         ref new DisplayPropertiesEventHandler(this, &SDL_WinRTApp::OnOrientationChanged);
@@ -348,8 +332,7 @@ void SDL_WinRTApp::SetWindow(CoreWindow ^ window)
     // to be done for network-enabled apps, as per Windows Store requirements.
     using namespace Windows::UI::ApplicationSettings;
     SettingsPane::GetForCurrentView()->CommandsRequested +=
-        ref new TypedEventHandler < SettingsPane ^
-        , SettingsPaneCommandsRequestedEventArgs ^ > (this, &SDL_WinRTApp::OnSettingsPaneCommandsRequested);
+        ref new TypedEventHandler<SettingsPane ^, SettingsPaneCommandsRequestedEventArgs ^>(this, &SDL_WinRTApp::OnSettingsPaneCommandsRequested);
 #endif
 }
 

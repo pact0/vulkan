@@ -14,8 +14,8 @@
 
 /* Sample program:  Draw a Chess Board  by using SDL_CreateSoftwareRenderer API */
 
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten/emscripten.h>
@@ -134,3 +134,4 @@ int main(int argc, char *argv[])
     SDL_Quit();
     return 0;
 }
+

@@ -5,26 +5,27 @@
  */
 
 #include "SDL.h"
-#include "common.h"
 #include <math.h>
+#include "common.h"
 
-#define BRUSH_SIZE           32 /* width and height of the brush */
+#define BRUSH_SIZE 32           /* width and height of the brush */
 #define PIXELS_PER_ITERATION 5  /* number of pixels between brush blots when forming a line */
 
-static SDL_Texture *brush = 0; /* texture for the brush */
+static SDL_Texture *brush = 0;       /* texture for the brush */
 
 /*
     draws a line from (startx, starty) to (startx + dx, starty + dy)
     this is accomplished by drawing several blots spaced PIXELS_PER_ITERATION apart
 */
-void drawLine(SDL_Renderer *renderer, float startx, float starty, float dx, float dy)
+void
+drawLine(SDL_Renderer *renderer, float startx, float starty, float dx, float dy)
 {
 
-    float distance = SDL_sqrt(dx * dx + dy * dy);         /* length of line segment (pythagoras) */
-    int iterations = distance / PIXELS_PER_ITERATION + 1; /* number of brush sprites to draw for the line */
-    float dx_prime = dx / iterations;                     /* x-shift per iteration */
-    float dy_prime = dy / iterations;                     /* y-shift per iteration */
-    SDL_Rect dstRect;                                     /* rect to draw brush sprite into */
+    float distance = SDL_sqrt(dx * dx + dy * dy);   /* length of line segment (pythagoras) */
+    int iterations = distance / PIXELS_PER_ITERATION + 1;       /* number of brush sprites to draw for the line */
+    float dx_prime = dx / iterations;   /* x-shift per iteration */
+    float dy_prime = dy / iterations;   /* y-shift per iteration */
+    SDL_Rect dstRect;           /* rect to draw brush sprite into */
     float x;
     float y;
     int i;
@@ -51,7 +52,8 @@ void drawLine(SDL_Renderer *renderer, float startx, float starty, float dx, floa
 /*
     loads the brush texture
 */
-void initializeTexture(SDL_Renderer *renderer)
+void
+initializeTexture(SDL_Renderer *renderer)
 {
     SDL_Surface *bmp_surface;
     bmp_surface = SDL_LoadBMP("stroke.bmp");
@@ -70,16 +72,17 @@ void initializeTexture(SDL_Renderer *renderer)
     SDL_SetTextureColorMod(brush, 255, 100, 100);
 }
 
-int main(int argc, char *argv[])
+int
+main(int argc, char *argv[])
 {
 
-    int x, y, dx, dy; /* mouse location          */
-    Uint8 state;      /* mouse (touch) state */
+    int x, y, dx, dy;           /* mouse location          */
+    Uint8 state;                /* mouse (touch) state */
     SDL_Event event;
-    SDL_Window *window; /* main window */
+    SDL_Window *window;         /* main window */
     SDL_Renderer *renderer;
     SDL_Texture *target;
-    int done; /* does user want to quit? */
+    int done;                   /* does user want to quit? */
     int w, h;
 
     /* initialize SDL */
@@ -112,11 +115,11 @@ int main(int argc, char *argv[])
                 done = 1;
                 break;
             case SDL_MOUSEMOTION:
-                state = SDL_GetMouseState(&x, &y);   /* get its location */
-                SDL_GetRelativeMouseState(&dx, &dy); /* find how much the mouse moved */
-                if (state & SDL_BUTTON_LMASK) {      /* is the mouse (touch) down? */
+                state = SDL_GetMouseState(&x, &y);  /* get its location */
+                SDL_GetRelativeMouseState(&dx, &dy);        /* find how much the mouse moved */
+                if (state & SDL_BUTTON_LMASK) {     /* is the mouse (touch) down? */
                     SDL_SetRenderTarget(renderer, target);
-                    drawLine(renderer, x - dx, y - dy, dx, dy); /* draw line segment */
+                    drawLine(renderer, x - dx, y - dy, dx, dy);       /* draw line segment */
                     SDL_SetRenderTarget(renderer, NULL);
                 }
                 break;

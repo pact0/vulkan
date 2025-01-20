@@ -22,18 +22,19 @@
 
 #if SDL_VIDEO_DRIVER_WINDOWS
 
+#include "SDL_windowsvideo.h"
+#include "SDL_windowsshape.h"
+#include "SDL_system.h"
+#include "SDL_syswm.h"
+#include "SDL_timer.h"
+#include "SDL_vkeys.h"
+#include "SDL_hints.h"
+#include "SDL_main.h"
 #include "../../events/SDL_events_c.h"
 #include "../../events/SDL_touch_c.h"
 #include "../../events/scancodes_windows.h"
 #include "SDL_hints.h"
 #include "SDL_log.h"
-#include "SDL_main.h"
-#include "SDL_system.h"
-#include "SDL_syswm.h"
-#include "SDL_timer.h"
-#include "SDL_vkeys.h"
-#include "SDL_windowsshape.h"
-#include "SDL_windowsvideo.h"
 
 /* Dropfile support */
 #include <shellapi.h>
@@ -48,8 +49,8 @@
 
 /* #define WMMSG_DEBUG */
 #ifdef WMMSG_DEBUG
-#include "wmmsg.h"
 #include <stdio.h>
+#include "wmmsg.h"
 #endif
 
 #ifdef __GDK__
@@ -495,7 +496,7 @@ static void WIN_UpdateFocus(SDL_Window *window, SDL_bool expect_focus)
         SDL_ToggleModState(KMOD_CAPS, (GetKeyState(VK_CAPITAL) & 0x0001) ? SDL_TRUE : SDL_FALSE);
         SDL_ToggleModState(KMOD_NUM, (GetKeyState(VK_NUMLOCK) & 0x0001) ? SDL_TRUE : SDL_FALSE);
         SDL_ToggleModState(KMOD_SCROLL, (GetKeyState(VK_SCROLL) & 0x0001) ? SDL_TRUE : SDL_FALSE);
-
+ 
         WIN_UpdateWindowICCProfile(data->window, SDL_TRUE);
     } else {
         RECT rect;
@@ -561,7 +562,7 @@ static SDL_bool ShouldGenerateWindowCloseOnAltF4(void)
 /* We want to generate mouse events from mouse and pen, and touch events from touchscreens */
 #define MI_WP_SIGNATURE      0xFF515700
 #define MI_WP_SIGNATURE_MASK 0xFFFFFF00
-#define IsTouchEvent(dw)     ((dw) & MI_WP_SIGNATURE_MASK) == MI_WP_SIGNATURE
+#define IsTouchEvent(dw)     ((dw)&MI_WP_SIGNATURE_MASK) == MI_WP_SIGNATURE
 
 typedef enum
 {

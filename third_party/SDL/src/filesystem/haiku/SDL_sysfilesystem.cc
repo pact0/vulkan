@@ -31,8 +31,8 @@
 #include <storage/Path.h>
 
 #include "SDL_error.h"
-#include "SDL_filesystem.h"
 #include "SDL_stdinc.h"
+#include "SDL_filesystem.h"
 
 char *SDL_GetBasePath(void)
 {
@@ -47,7 +47,7 @@ char *SDL_GetBasePath(void)
 
     BEntry entry(info.name, true);
     BPath path;
-    status_t rc = entry.GetPath(&path); /* (path) now has binary's path. */
+    status_t rc = entry.GetPath(&path);  /* (path) now has binary's path. */
     SDL_assert(rc == B_OK);
     rc = path.GetParent(&path); /* chop filename, keep directory. */
     SDL_assert(rc == B_OK);
@@ -55,7 +55,7 @@ char *SDL_GetBasePath(void)
     SDL_assert(str != NULL);
 
     const size_t len = SDL_strlen(str);
-    char *retval = (char *)SDL_malloc(len + 2);
+    char *retval = (char *) SDL_malloc(len + 2);
     if (retval == NULL) {
         SDL_OutOfMemory();
         return NULL;
@@ -63,9 +63,10 @@ char *SDL_GetBasePath(void)
 
     SDL_memcpy(retval, str, len);
     retval[len] = '/';
-    retval[len + 1] = '\0';
+    retval[len+1] = '\0';
     return retval;
 }
+
 
 char *SDL_GetPrefPath(const char *org, const char *app)
 {
@@ -86,7 +87,7 @@ char *SDL_GetPrefPath(const char *org, const char *app)
         ++append; // home empty or ends with separator, skip the one from append
     }
     len += SDL_strlen(append) + SDL_strlen(org) + SDL_strlen(app) + 3;
-    char *retval = (char *)SDL_malloc(len);
+    char *retval = (char *) SDL_malloc(len);
     if (retval == NULL) {
         SDL_OutOfMemory();
     } else {
@@ -95,7 +96,7 @@ char *SDL_GetPrefPath(const char *org, const char *app)
         } else {
             SDL_snprintf(retval, len, "%s%s%s/", home, append, app);
         }
-        create_directory(retval, 0700); // Haiku api: creates missing dirs
+        create_directory(retval, 0700);  // Haiku api: creates missing dirs
     }
 
     return retval;

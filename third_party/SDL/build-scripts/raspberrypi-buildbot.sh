@@ -12,20 +12,20 @@
 
 TARBALL="$1"
 if [ -z $1 ]; then
-  TARBALL=sdl-raspberrypi.tar.xz
+    TARBALL=sdl-raspberrypi.tar.xz
 fi
 
-OSTYPE=$(uname -s)
+OSTYPE=`uname -s`
 if [ "$OSTYPE" != "Linux" ]; then
-  # !!! FIXME
-  echo "This only works on x86 or x64-64 Linux at the moment." 1>&2
-  exit 1
+    # !!! FIXME
+    echo "This only works on x86 or x64-64 Linux at the moment." 1>&2
+    exit 1
 fi
 
 if [ "x$MAKE" == "x" ]; then
-  NCPU=$(cat /proc/cpuinfo | grep vendor_id | wc -l)
-  let NCPU=NCPU+1
-  MAKE="make -j$NCPU"
+    NCPU=`cat /proc/cpuinfo |grep vendor_id |wc -l`
+    let NCPU=$NCPU+1
+    MAKE="make -j$NCPU"
 fi
 
 BUILDBOTDIR="buildbot"
@@ -53,4 +53,6 @@ tar -cJvvf $TARBALL usr
 popd
 
 set +x
-echo "All done. Final installable is in $TARBALL ..."
+echo "All done. Final installable is in $TARBALL ...";
+
+

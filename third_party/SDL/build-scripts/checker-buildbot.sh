@@ -12,12 +12,12 @@ FINALDIR="$1"
 set -x
 set -e
 
-cd $(dirname "$0")
+cd `dirname "$0"`
 cd ..
 
 rm -rf checker-buildbot analysis
 if [ ! -z "$FINALDIR" ]; then
-  rm -rf "$FINALDIR"
+    rm -rf "$FINALDIR"
 fi
 
 mkdir checker-buildbot
@@ -35,23 +35,23 @@ scan-build -o analysis cmake -G Ninja -Wno-dev -DSDL_STATIC=OFF -DCMAKE_BUILD_TY
 rm -rf analysis
 scan-build -o analysis ninja
 
-if [ $(ls -A analysis | wc -l) == 0 ]; then
-  mkdir analysis/zarro
-  echo '<html><head><title>Zarro boogs</title></head><body>Static analysis: no issues to report.</body></html>' >analysis/zarro/index.html
+if [ `ls -A analysis |wc -l` == 0 ] ; then
+    mkdir analysis/zarro
+    echo '<html><head><title>Zarro boogs</title></head><body>Static analysis: no issues to report.</body></html>' >analysis/zarro/index.html
 fi
 
 mv analysis/* ../analysis
-rmdir analysis # Make sure this is empty.
+rmdir analysis   # Make sure this is empty.
 cd ..
 chmod -R a+r analysis
 chmod -R go-w analysis
 find analysis -type d -exec chmod a+x {} \;
-if [ -x /usr/bin/xattr ]; then find analysis -exec /usr/bin/xattr -d com.apple.quarantine {} \; 2>/dev/null; fi
+if [ -x /usr/bin/xattr ]; then find analysis -exec /usr/bin/xattr -d com.apple.quarantine {} \; 2>/dev/null ; fi
 
 if [ ! -z "$FINALDIR" ]; then
-  mv analysis "$FINALDIR"
+    mv analysis "$FINALDIR"
 else
-  FINALDIR=analysis
+    FINALDIR=analysis
 fi
 
 rm -rf checker-buildbot
@@ -59,3 +59,4 @@ rm -rf checker-buildbot
 echo "Done. Final output is in '$FINALDIR' ..."
 
 # end of checker-buildbot.sh ...
+

@@ -28,22 +28,22 @@ extern "C" {
 
 #include "../../SDL_internal.h"
 #include "SDL.h"
-#include "SDL_bframebuffer.h"
 #include "SDL_syswm.h"
+#include "SDL_bframebuffer.h"
 
 #ifdef __cplusplus
 }
 #endif
 
+#include <stdio.h>
 #include <AppKit.h>
 #include <Cursor.h>
 #include <InterfaceKit.h>
-#include <stdio.h>
 #if SDL_VIDEO_OPENGL
 #include <opengl/GLView.h>
 #endif
-#include "../../main/haiku/SDL_BApp.h"
 #include "SDL_events.h"
+#include "../../main/haiku/SDL_BApp.h"
 
 enum WinCommands
 {

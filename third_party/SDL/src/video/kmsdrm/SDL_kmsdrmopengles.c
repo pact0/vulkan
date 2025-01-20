@@ -25,9 +25,9 @@
 
 #include "SDL_log.h"
 
-#include "SDL_kmsdrmdyn.h"
-#include "SDL_kmsdrmopengles.h"
 #include "SDL_kmsdrmvideo.h"
+#include "SDL_kmsdrmopengles.h"
+#include "SDL_kmsdrmdyn.h"
 #include <errno.h>
 
 #ifndef EGL_PLATFORM_GBM_MESA

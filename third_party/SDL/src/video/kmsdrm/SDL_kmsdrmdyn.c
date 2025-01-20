@@ -29,8 +29,8 @@
 
 #ifdef SDL_VIDEO_DRIVER_KMSDRM_DYNAMIC
 
-#include "SDL_loadso.h"
 #include "SDL_name.h"
+#include "SDL_loadso.h"
 
 typedef struct
 {

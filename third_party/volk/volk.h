@@ -4,8 +4,7 @@
  * Copyright (C) 2018-2019, by Arseny Kapoulkine (arseny.kapoulkine@gmail.com)
  * Report bugs and download new versions at https://github.com/zeux/volk
  *
- * This library is distributed under the MIT License. See notice at the end of
- * this file.
+ * This library is distributed under the MIT License. See notice at the end of this file.
  */
 /* clang-format off */
 #ifndef VOLK_H_

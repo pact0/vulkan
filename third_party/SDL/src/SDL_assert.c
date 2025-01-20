@@ -25,32 +25,32 @@
 #endif
 
 #include "SDL.h"
-#include "SDL_assert.h"
-#include "SDL_assert_c.h"
 #include "SDL_atomic.h"
 #include "SDL_messagebox.h"
 #include "SDL_video.h"
+#include "SDL_assert.h"
+#include "SDL_assert_c.h"
 #include "video/SDL_sysvideo.h"
 
 #if defined(__WIN32__) || defined(__GDK__)
 #ifndef WS_OVERLAPPEDWINDOW
 #define WS_OVERLAPPEDWINDOW 0
 #endif
-#else /* fprintf, etc. */
+#else  /* fprintf, etc. */
 #include <stdio.h>
 #include <stdlib.h>
 #endif
 
 #if defined(__EMSCRIPTEN__)
-#include <emscripten.h>
-/* older Emscriptens don't have this, but we need to for wasm64 compatibility. */
-#ifndef MAIN_THREAD_EM_ASM_PTR
-#ifdef __wasm64__
-#error You need to upgrade your Emscripten compiler to support wasm64
-#else
-#define MAIN_THREAD_EM_ASM_PTR MAIN_THREAD_EM_ASM_INT
-#endif
-#endif
+    #include <emscripten.h>
+    /* older Emscriptens don't have this, but we need to for wasm64 compatibility. */
+    #ifndef MAIN_THREAD_EM_ASM_PTR
+        #ifdef __wasm64__
+            #error You need to upgrade your Emscripten compiler to support wasm64
+        #else
+            #define MAIN_THREAD_EM_ASM_PTR MAIN_THREAD_EM_ASM_INT
+        #endif
+    #endif
 #endif
 
 /* The size of the stack buffer to use for rendering assert messages. */

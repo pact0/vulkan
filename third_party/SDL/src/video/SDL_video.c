@@ -23,14 +23,14 @@
 
 /* The high-level video driver subsystem */
 
-#include "../events/SDL_events_c.h"
-#include "../timer/SDL_timer_c.h"
 #include "SDL.h"
+#include "SDL_video.h"
+#include "SDL_sysvideo.h"
 #include "SDL_blit.h"
 #include "SDL_pixels_c.h"
 #include "SDL_rect_c.h"
-#include "SDL_sysvideo.h"
-#include "SDL_video.h"
+#include "../events/SDL_events_c.h"
+#include "../timer/SDL_timer_c.h"
 
 #include "SDL_syswm.h"
 
@@ -58,8 +58,8 @@
 #endif
 
 #ifdef __LINUX__
-#include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #endif
 
@@ -172,8 +172,8 @@ static VideoBootStrap *bootstrap[] = {
 
 #if defined(__MACOSX__) && defined(SDL_VIDEO_DRIVER_COCOA)
 /* Support for Mac OS X fullscreen spaces */
-extern SDL_bool Cocoa_IsWindowInFullscreenSpace(SDL_Window *window);
-extern SDL_bool Cocoa_SetWindowFullscreenSpace(SDL_Window *window, SDL_bool state);
+extern SDL_bool Cocoa_IsWindowInFullscreenSpace(SDL_Window * window);
+extern SDL_bool Cocoa_SetWindowFullscreenSpace(SDL_Window * window, SDL_bool state);
 #endif
 
 /* Convenience functions for reading driver flags */
@@ -1012,8 +1012,8 @@ static SDL_DisplayMode *SDL_GetClosestDisplayModeForDisplay(SDL_VideoDisplay *di
 }
 
 SDL_DisplayMode *SDL_GetClosestDisplayMode(int displayIndex,
-                                           const SDL_DisplayMode *mode,
-                                           SDL_DisplayMode *closest)
+                          const SDL_DisplayMode *mode,
+                          SDL_DisplayMode *closest)
 {
     SDL_VideoDisplay *display;
 
@@ -1194,7 +1194,7 @@ int SDL_GetWindowDisplayIndex(SDL_Window *window)
             return displayIndex;
         }
 
-        displayIndex = GetRectDisplayIndex(window->x, window->y, window->w, window->h);
+        displayIndex =  GetRectDisplayIndex(window->x, window->y, window->w, window->h);
 
         /* Find the display containing the window if fullscreen */
         for (i = 0; i < _this->num_displays; ++i) {
@@ -2727,7 +2727,7 @@ int SDL_UpdateWindowSurfaceRects(SDL_Window *window, const SDL_Rect *rects,
     return _this->UpdateWindowFramebuffer(_this, window, rects, numrects);
 }
 
-int SDL_SetWindowBrightness(SDL_Window *window, float brightness)
+int SDL_SetWindowBrightness(SDL_Window * window, float brightness)
 {
     Uint16 ramp[256];
     int status;
@@ -2742,14 +2742,14 @@ int SDL_SetWindowBrightness(SDL_Window *window, float brightness)
     return status;
 }
 
-float SDL_GetWindowBrightness(SDL_Window *window)
+float SDL_GetWindowBrightness(SDL_Window * window)
 {
     CHECK_WINDOW_MAGIC(window, 1.0f);
 
     return window->brightness;
 }
 
-int SDL_SetWindowOpacity(SDL_Window *window, float opacity)
+int SDL_SetWindowOpacity(SDL_Window * window, float opacity)
 {
     int retval;
     CHECK_WINDOW_MAGIC(window, -1);
@@ -2819,9 +2819,10 @@ int SDL_SetWindowInputFocus(SDL_Window *window)
     return _this->SetWindowInputFocus(_this, window);
 }
 
-int SDL_SetWindowGammaRamp(SDL_Window *window, const Uint16 *red,
-                           const Uint16 *green,
-                           const Uint16 *blue)
+
+int SDL_SetWindowGammaRamp(SDL_Window * window, const Uint16 * red,
+                                            const Uint16 * green,
+                                            const Uint16 * blue)
 {
     CHECK_WINDOW_MAGIC(window, -1);
 
@@ -2837,13 +2838,13 @@ int SDL_SetWindowGammaRamp(SDL_Window *window, const Uint16 *red,
     }
 
     if (red) {
-        SDL_memcpy(&window->gamma[0 * 256], red, 256 * sizeof(Uint16));
+        SDL_memcpy(&window->gamma[0*256], red, 256*sizeof(Uint16));
     }
     if (green) {
-        SDL_memcpy(&window->gamma[1 * 256], green, 256 * sizeof(Uint16));
+        SDL_memcpy(&window->gamma[1*256], green, 256*sizeof(Uint16));
     }
     if (blue) {
-        SDL_memcpy(&window->gamma[2 * 256], blue, 256 * sizeof(Uint16));
+        SDL_memcpy(&window->gamma[2*256], blue, 256*sizeof(Uint16));
     }
     if (window->flags & SDL_WINDOW_INPUT_FOCUS) {
         return _this->SetWindowGammaRamp(_this, window, window->gamma);
@@ -2852,20 +2853,20 @@ int SDL_SetWindowGammaRamp(SDL_Window *window, const Uint16 *red,
     }
 }
 
-int SDL_GetWindowGammaRamp(SDL_Window *window, Uint16 *red,
-                           Uint16 *green,
-                           Uint16 *blue)
+int SDL_GetWindowGammaRamp(SDL_Window * window, Uint16 * red,
+                                            Uint16 * green,
+                                            Uint16 * blue)
 {
     CHECK_WINDOW_MAGIC(window, -1);
 
     if (!window->gamma) {
         int i;
 
-        window->gamma = (Uint16 *)SDL_malloc(256 * 6 * sizeof(Uint16));
+        window->gamma = (Uint16 *)SDL_malloc(256*6*sizeof(Uint16));
         if (!window->gamma) {
             return SDL_OutOfMemory();
         }
-        window->saved_gamma = window->gamma + 3 * 256;
+        window->saved_gamma = window->gamma + 3*256;
 
         if (_this->GetWindowGammaRamp) {
             if (_this->GetWindowGammaRamp(_this, window, window->gamma) < 0) {
@@ -2876,27 +2877,27 @@ int SDL_GetWindowGammaRamp(SDL_Window *window, Uint16 *red,
             for (i = 0; i < 256; ++i) {
                 Uint16 value = (Uint16)((i << 8) | i);
 
-                window->gamma[0 * 256 + i] = value;
-                window->gamma[1 * 256 + i] = value;
-                window->gamma[2 * 256 + i] = value;
+                window->gamma[0*256+i] = value;
+                window->gamma[1*256+i] = value;
+                window->gamma[2*256+i] = value;
             }
         }
-        SDL_memcpy(window->saved_gamma, window->gamma, 3 * 256 * sizeof(Uint16));
+        SDL_memcpy(window->saved_gamma, window->gamma, 3*256*sizeof(Uint16));
     }
 
     if (red) {
-        SDL_memcpy(red, &window->gamma[0 * 256], 256 * sizeof(Uint16));
+        SDL_memcpy(red, &window->gamma[0*256], 256*sizeof(Uint16));
     }
     if (green) {
-        SDL_memcpy(green, &window->gamma[1 * 256], 256 * sizeof(Uint16));
+        SDL_memcpy(green, &window->gamma[1*256], 256*sizeof(Uint16));
     }
     if (blue) {
-        SDL_memcpy(blue, &window->gamma[2 * 256], 256 * sizeof(Uint16));
+        SDL_memcpy(blue, &window->gamma[2*256], 256*sizeof(Uint16));
     }
     return 0;
 }
 
-void SDL_UpdateWindowGrab(SDL_Window *window)
+void SDL_UpdateWindowGrab(SDL_Window * window)
 {
     SDL_bool keyboard_grabbed, mouse_grabbed;
 
@@ -3142,7 +3143,7 @@ static SDL_bool ShouldMinimizeOnFocusLoss(SDL_Window *window)
     }
 
 #if defined(__MACOSX__) && defined(SDL_VIDEO_DRIVER_COCOA)
-    if (SDL_strcmp(_this->name, "cocoa") == 0) { /* don't do this for X11, etc */
+    if (SDL_strcmp(_this->name, "cocoa") == 0) {  /* don't do this for X11, etc */
         if (Cocoa_IsWindowInFullscreenSpace(window)) {
             return SDL_FALSE;
         }
@@ -3928,10 +3929,10 @@ int SDL_GL_GetAttribute(SDL_GLattr attr, int *value)
         return 0;
     }
     case SDL_GL_CONTEXT_NO_ERROR:
-    {
-        *value = _this->gl_config.no_error;
-        return 0;
-    }
+        {
+            *value = _this->gl_config.no_error;
+            return 0;
+        }
     default:
         return SDL_SetError("Unknown OpenGL attribute");
     }
@@ -4073,7 +4074,7 @@ SDL_GLContext SDL_GL_GetCurrentContext(void)
     return (SDL_GLContext)SDL_TLSGet(_this->current_glctx_tls);
 }
 
-void SDL_GL_GetDrawableSize(SDL_Window *window, int *w, int *h)
+void SDL_GL_GetDrawableSize(SDL_Window * window, int *w, int *h)
 {
     CHECK_WINDOW_MAGIC(window, );
 
@@ -4240,7 +4241,7 @@ void SDL_WM_SetIcon(SDL_Surface * icon, Uint8 * mask)
 }
 #endif
 
-SDL_bool SDL_GetWindowWMInfo(SDL_Window *window, struct SDL_SysWMinfo *info)
+SDL_bool SDL_GetWindowWMInfo(SDL_Window * window, struct SDL_SysWMinfo *info)
 {
     CHECK_WINDOW_MAGIC(window, SDL_FALSE);
 
@@ -4556,7 +4557,10 @@ int SDL_ShowSimpleMessageBox(Uint32 flags, const char *title, const char *messag
     if (message == NULL) {
         message = "";
     }
-    EM_ASM({ alert(UTF8ToString($0) + "\n\n" + UTF8ToString($1)); }, title, message);
+    EM_ASM({
+        alert(UTF8ToString($0) + "\n\n" + UTF8ToString($1));
+    },
+            title, message);
     return 0;
 #else
     SDL_MessageBoxData data;

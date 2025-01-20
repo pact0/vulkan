@@ -24,27 +24,25 @@
 
 /* BWindow based clipboard implementation */
 
-#include <TypeConstants.h>
 #include <unistd.h>
+#include <TypeConstants.h>
 
-#include "../SDL_sysvideo.h"
 #include "SDL_BWin.h"
 #include "SDL_timer.h"
+#include "../SDL_sysvideo.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-int HAIKU_SetClipboardText(_THIS, const char *text)
-{
+int HAIKU_SetClipboardText(_THIS, const char *text) {
     BMessage *clip = NULL;
     if (be_clipboard->Lock()) {
         be_clipboard->Clear();
         if ((clip = be_clipboard->Data())) {
             /* Presumably the string of characters is ascii-format */
             ssize_t asciiLength = 0;
-            for (; text[asciiLength] != 0; ++asciiLength) {
-            }
+            for (; text[asciiLength] != 0; ++asciiLength) {}
             clip->AddData("text/plain", B_MIME_TYPE, text, asciiLength);
             be_clipboard->Commit();
         }
@@ -53,21 +51,20 @@ int HAIKU_SetClipboardText(_THIS, const char *text)
     return 0;
 }
 
-char *HAIKU_GetClipboardText(_THIS)
-{
+char *HAIKU_GetClipboardText(_THIS) {
     BMessage *clip = NULL;
-    const char *text = NULL;
+    const char *text = NULL;    
     ssize_t length;
     char *result;
     if (be_clipboard->Lock()) {
         if ((clip = be_clipboard->Data())) {
             /* Presumably the string of characters is ascii-format */
-            clip->FindData("text/plain", B_MIME_TYPE, (const void **)&text,
-                           &length);
+            clip->FindData("text/plain", B_MIME_TYPE, (const void**)&text,
+                &length);
         }
         be_clipboard->Unlock();
-    }
-
+    } 
+    
     if (text == NULL) {
         result = SDL_strdup("");
     } else {
@@ -75,18 +72,17 @@ char *HAIKU_GetClipboardText(_THIS)
         result = (char *)SDL_malloc((length + 1) * sizeof(char));
         SDL_strlcpy(result, text, length + 1);
     }
-
+    
     return result;
 }
 
-SDL_bool HAIKU_HasClipboardText(_THIS)
-{
+SDL_bool HAIKU_HasClipboardText(_THIS) {
     SDL_bool result = SDL_FALSE;
     char *text = HAIKU_GetClipboardText(_this);
     if (text) {
         result = text[0] != '\0' ? SDL_TRUE : SDL_FALSE;
         SDL_free(text);
-    }
+    } 
     return result;
 }
 

@@ -23,8 +23,8 @@
 
 #if SDL_VIDEO_DRIVER_X11
 
-#include "SDL_hints.h"
 #include "SDL_x11video.h"
+#include "SDL_hints.h"
 
 /* GLX implementation of SDL OpenGL support */
 
@@ -38,11 +38,11 @@
  * NetBSD and OpenBSD have different GL library versions depending on how
  * the library was installed.
  */
-#define DEFAULT_OPENGL "libGL.so"
+#define DEFAULT_OPENGL  "libGL.so"
 #elif defined(__MACOSX__)
-#define DEFAULT_OPENGL "/opt/X11/lib/libGL.1.dylib"
+#define DEFAULT_OPENGL  "/opt/X11/lib/libGL.1.dylib"
 #elif defined(__QNXNTO__)
-#define DEFAULT_OPENGL "libGL.so.3"
+#define DEFAULT_OPENGL  "libGL.so.3"
 #else
 #define DEFAULT_OPENGL "libGL.so.1"
 #endif
@@ -253,7 +253,7 @@ int X11_GL_LoadLibrary(_THIS, const char *path)
      */
     if (((_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES) ||
          SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_FORCE_EGL, SDL_FALSE)) &&
-        X11_GL_UseEGL(_this)) {
+        X11_GL_UseEGL(_this) ) {
 #if SDL_VIDEO_OPENGL_EGL
         X11_GL_UnloadLibrary(_this);
         _this->GL_LoadLibrary = X11_GLES_LoadLibrary;
@@ -681,7 +681,8 @@ static int X11_GL_ErrorHandler(Display *d, XErrorEvent *e)
 SDL_bool X11_GL_UseEGL(_THIS)
 {
     SDL_assert(_this->gl_data != NULL);
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_FORCE_EGL, SDL_FALSE)) {
+    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_FORCE_EGL, SDL_FALSE))
+    {
         /* use of EGL has been requested, even for desktop GL */
         return SDL_TRUE;
     }

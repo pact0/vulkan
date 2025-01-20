@@ -24,13 +24,13 @@
 #if SDL_VIDEO_DRIVER_KMSDRM
 
 /* SDL internals */
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
 #include "../SDL_sysvideo.h"
-#include "SDL_hints.h"
-#include "SDL_log.h"
 #include "SDL_syswm.h"
+#include "SDL_log.h"
+#include "SDL_hints.h"
+#include "../../events/SDL_events_c.h"
+#include "../../events/SDL_mouse_c.h"
+#include "../../events/SDL_keyboard_c.h"
 
 #ifdef SDL_INPUT_LINUXEV
 #include "../../core/linux/SDL_evdev.h"
@@ -39,18 +39,18 @@
 #endif
 
 /* KMS/DRM declarations */
-#include "SDL_kmsdrmdyn.h"
-#include "SDL_kmsdrmevents.h"
-#include "SDL_kmsdrmmouse.h"
-#include "SDL_kmsdrmopengles.h"
 #include "SDL_kmsdrmvideo.h"
+#include "SDL_kmsdrmevents.h"
+#include "SDL_kmsdrmopengles.h"
+#include "SDL_kmsdrmmouse.h"
+#include "SDL_kmsdrmdyn.h"
 #include "SDL_kmsdrmvulkan.h"
-#include <dirent.h>
-#include <errno.h>
-#include <poll.h>
-#include <sys/param.h>
 #include <sys/stat.h>
+#include <sys/param.h>
 #include <sys/utsname.h>
+#include <dirent.h>
+#include <poll.h>
+#include <errno.h>
 
 #ifdef __OpenBSD__
 static SDL_bool moderndri = SDL_FALSE;
@@ -1528,30 +1528,33 @@ int KMSDRM_CreateWindow(_THIS, SDL_Window *window)
     return ret;
 }
 
-int KMSDRM_GetWindowGammaRamp(_THIS, SDL_Window *window, Uint16 *ramp)
+int KMSDRM_GetWindowGammaRamp(_THIS, SDL_Window * window, Uint16 * ramp)
 {
-    SDL_WindowData *windata = (SDL_WindowData *)window->driverdata;
-    SDL_VideoData *viddata = (SDL_VideoData *)windata->viddata;
+    SDL_WindowData *windata = (SDL_WindowData*)window->driverdata;
+    SDL_VideoData *viddata = (SDL_VideoData*)windata->viddata;
     SDL_VideoDisplay *disp = SDL_GetDisplayForWindow(window);
-    SDL_DisplayData *dispdata = (SDL_DisplayData *)disp->driverdata;
-    if (KMSDRM_drmModeCrtcGetGamma(viddata->drm_fd, dispdata->crtc->crtc_id, 256, &ramp[0 * 256], &ramp[1 * 256], &ramp[2 * 256]) == -1) {
+    SDL_DisplayData* dispdata = (SDL_DisplayData*)disp->driverdata;
+    if (KMSDRM_drmModeCrtcGetGamma(viddata->drm_fd, dispdata->crtc->crtc_id, 256, &ramp[0*256], &ramp[1*256], &ramp[2*256]) == -1)
+    {
         return SDL_SetError("Failed to get gamma ramp");
     }
     return 0;
 }
 
-int KMSDRM_SetWindowGammaRamp(_THIS, SDL_Window *window, const Uint16 *ramp)
+int KMSDRM_SetWindowGammaRamp(_THIS, SDL_Window * window, const Uint16 * ramp)
 {
-    SDL_WindowData *windata = (SDL_WindowData *)window->driverdata;
-    SDL_VideoData *viddata = (SDL_VideoData *)windata->viddata;
+    SDL_WindowData *windata = (SDL_WindowData*)window->driverdata;
+    SDL_VideoData *viddata = (SDL_VideoData*)windata->viddata;
     SDL_VideoDisplay *disp = SDL_GetDisplayForWindow(window);
-    SDL_DisplayData *dispdata = (SDL_DisplayData *)disp->driverdata;
-    Uint16 *tempRamp = SDL_calloc(3 * sizeof(Uint16), 256);
-    if (tempRamp == NULL) {
+    SDL_DisplayData* dispdata = (SDL_DisplayData*)disp->driverdata;
+    Uint16* tempRamp = SDL_calloc(3 * sizeof(Uint16), 256);
+    if (tempRamp == NULL)
+    {
         return SDL_OutOfMemory();
     }
     SDL_memcpy(tempRamp, ramp, 3 * sizeof(Uint16) * 256);
-    if (KMSDRM_drmModeCrtcSetGamma(viddata->drm_fd, dispdata->crtc->crtc_id, 256, &tempRamp[0 * 256], &tempRamp[1 * 256], &tempRamp[2 * 256]) == -1) {
+    if (KMSDRM_drmModeCrtcSetGamma(viddata->drm_fd, dispdata->crtc->crtc_id, 256, &tempRamp[0*256], &tempRamp[1*256], &tempRamp[2*256]) == -1)
+    {
         SDL_free(tempRamp);
         return SDL_SetError("Failed to set gamma ramp");
     }
@@ -1559,7 +1562,7 @@ int KMSDRM_SetWindowGammaRamp(_THIS, SDL_Window *window, const Uint16 *ramp)
     return 0;
 }
 
-int KMSDRM_CreateWindowFrom(_THIS, SDL_Window *window, const void *data)
+int KMSDRM_CreateWindowFrom(_THIS, SDL_Window * window, const void *data)
 {
     return -1;
 }
@@ -1610,24 +1613,24 @@ void KMSDRM_RestoreWindow(_THIS, SDL_Window *window)
 /*****************************************************************************/
 /* SDL Window Manager function                                               */
 /*****************************************************************************/
-SDL_bool KMSDRM_GetWindowWMInfo(_THIS, SDL_Window *window, struct SDL_SysWMinfo *info)
+SDL_bool KMSDRM_GetWindowWMInfo(_THIS, SDL_Window * window, struct SDL_SysWMinfo *info)
 {
-    SDL_VideoData *viddata = ((SDL_VideoData *)_this->driverdata);
-    const Uint32 version = SDL_VERSIONNUM((Uint32)info->version.major,
-                                          (Uint32)info->version.minor,
-                                          (Uint32)info->version.patch);
+     SDL_VideoData *viddata = ((SDL_VideoData *)_this->driverdata);
+     const Uint32 version = SDL_VERSIONNUM((Uint32)info->version.major,
+                                           (Uint32)info->version.minor,
+                                           (Uint32)info->version.patch);
 
-    if (version < SDL_VERSIONNUM(2, 0, 15)) {
-        SDL_SetError("Version must be 2.0.15 or newer");
-        return SDL_FALSE;
-    }
+     if (version < SDL_VERSIONNUM(2, 0, 15)) {
+         SDL_SetError("Version must be 2.0.15 or newer");
+         return SDL_FALSE;
+     }
 
     info->subsystem = SDL_SYSWM_KMSDRM;
     info->info.kmsdrm.dev_index = viddata->devindex;
     info->info.kmsdrm.drm_fd = viddata->drm_fd;
     info->info.kmsdrm.gbm_dev = viddata->gbm_dev;
 
-    return SDL_TRUE;
+     return SDL_TRUE;
 }
 
 #endif /* SDL_VIDEO_DRIVER_KMSDRM */

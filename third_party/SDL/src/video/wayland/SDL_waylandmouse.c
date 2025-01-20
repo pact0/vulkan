@@ -23,25 +23,25 @@
 
 #if SDL_VIDEO_DRIVER_WAYLAND
 
-#include <fcntl.h>
-#include <limits.h>
-#include <sys/mman.h>
 #include <sys/types.h>
+#include <sys/mman.h>
+#include <fcntl.h>
 #include <unistd.h>
+#include <limits.h>
 
 #include "../SDL_sysvideo.h"
 
-#include "../../events/SDL_mouse_c.h"
-#include "../SDL_pixels_c.h"
 #include "SDL_mouse.h"
-#include "SDL_waylandevents_c.h"
+#include "../../events/SDL_mouse_c.h"
 #include "SDL_waylandvideo.h"
+#include "../SDL_pixels_c.h"
+#include "SDL_waylandevents_c.h"
 
-#include "SDL_waylandmouse.h"
 #include "wayland-cursor.h"
+#include "SDL_waylandmouse.h"
 
-#include "../../SDL_hints_c.h"
 #include "SDL_hints.h"
+#include "../../SDL_hints_c.h"
 
 static int Wayland_SetRelativeMouseMode(SDL_bool enabled);
 
