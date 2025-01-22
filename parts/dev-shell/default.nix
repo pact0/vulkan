@@ -60,6 +60,8 @@
           SDL2_sound
           xorg.libXext
 
+          gcc
+
           wayland-scanner
           wayland-protocols
 
