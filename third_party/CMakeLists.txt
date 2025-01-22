@@ -26,7 +26,7 @@ target_link_libraries(vkbootstrap PUBLIC Vulkan::Vulkan $<$<BOOL:UNIX>:${CMAKE_D
 set_property(TARGET vkbootstrap PROPERTY CXX_STANDARD 23)
 
 #both vma and glm and header only libs so we only need the include path
-target_include_directories(vma INTERFACE vma)
+target_include_directories(vma SYSTEM INTERFACE vma)
 
 target_include_directories(glm INTERFACE glm)
 
