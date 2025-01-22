@@ -19,16 +19,17 @@
 #include <glm/mat4x4.hpp>
 #include <glm/vec4.hpp>
 
-#define VK_CHECK(x)                                                            \
-  do {                                                                         \
-    VkResult err = x;                                                          \
-    if (err) {                                                                 \
-      std::println("Detected Vulkan error: {}", string_VkResult(err));         \
-      abort();                                                                 \
-    }                                                                          \
+#define VK_CHECK(x)                                                    \
+  do {                                                                 \
+    VkResult err = x;                                                  \
+    if (err) {                                                         \
+      std::println("Detected Vulkan error: {}", string_VkResult(err)); \
+      abort();                                                         \
+    }                                                                  \
   } while (0)
 
-struct AllocatedImage {
+struct AllocatedImage
+{
   VkImage image;
   VkImageView imageView;
   VmaAllocation allocation;
@@ -36,17 +37,17 @@ struct AllocatedImage {
   VkFormat imageFormat;
 };
 
-struct DeletionQueue {
+struct DeletionQueue
+{
   std::deque<std::function<void()>> deletors;
 
-  void push_function(std::function<void()> &&function) {
-    deletors.push_back(function);
-  }
+  void push_function(std::function<void()> &&function) { deletors.push_back(function); }
 
-  void flush() {
+  void flush()
+  {
     // reverse iterate the deletion queue to execute all the functions
     for (auto it = deletors.rbegin(); it != deletors.rend(); it++) {
-      (*it)(); // call functors
+      (*it)();// call functors
     }
 
     deletors.clear();
