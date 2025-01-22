@@ -40,7 +40,10 @@ ENDIF()
 
 target_precompile_headers(engine PUBLIC <optional> <vector> <memory> <string> <print> <unordered_map> <glm/mat4x4.hpp>  <glm/vec4.hpp> <vulkan/vulkan.h>)
 
-# add_custom_command(TARGET engine POST_BUILD
-#   COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:engine> $<TARGET_FILE_DIR:engine>
-#   COMMAND_EXPAND_LISTS
-#   )
+IF (WIN32)
+add_custom_command(TARGET engine POST_BUILD
+   COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:engine> $<TARGET_FILE_DIR:engine>
+   COMMAND_EXPAND_LISTS
+   COMMENT "Copying DLLs.."
+   )
+ENDIF()
