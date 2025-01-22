@@ -47,13 +47,14 @@
           ninja
           alsa-utils
 
-          vulkan-loader
           glslang
           vulkan-headers
           vulkan-loader
           vulkan-validation-layers
           vulkan-tools
           vulkan-volk
+          vulkan-utility-libraries
+          vulkan-tools-lunarg
           mesa
           SDL2
           SDL2_sound
